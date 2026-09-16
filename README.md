@@ -40,6 +40,10 @@ These are separate settings. This does not replace Chrome's New Tab page. See [C
 
 ## Optional integrations
 
+Open **Settings → Connect accounts**, or type **accounts** in **Ctrl+K**. The guided screen shows last-sync status and explains each connection. Start the helper using the **Daybreak Accounts** desktop shortcut or **Connect accounts.cmd** in the app folder, then select **Open connection page**. A local webpage cannot start an executable itself.
+
+On that connection page, Google has an expandable first-time setup guide and a sign-in form. GitHub has a **Sign in with GitHub** button that opens the CLI's interactive browser-login flow. Neither connection is automatic or required to use Daybreak. If upgrading a running helper, restart it (or sign out of Windows and back in) before using the new connection page.
+
 ### Weather
 
 Choose a city in the widget. Forecasts and city search use [Open-Meteo](https://open-meteo.com/); no API key is needed. Requests begin after you select a location. A saved forecast remains available offline.
@@ -50,7 +54,7 @@ See [Calendar setup](CALENDAR-SETUP.md). Each person connects their own account 
 
 ### GitHub issues
 
-Install Python 3 and the [GitHub CLI](https://cli.github.com/), then run `gh auth login`. Daybreak uses that CLI account automatically; it reads open issues you authored, including private issues your login can access.
+Install Python 3 and the [GitHub CLI](https://cli.github.com/), open **Connect accounts**, and select **Sign in with GitHub** on the helper page. Follow the terminal's browser-login instructions. You can also run `gh auth login` yourself. Daybreak uses that CLI account automatically; it reads open issues you authored, including private issues your login can access.
 
 Run `python github-sync.py` for a one-time refresh, or run **Start Calendar.cmd** to keep the shared helper refreshing GitHub every five minutes. Google sign-in is optional for GitHub: you can close the calendar connection page. The homepage picks up refreshed files every 30 seconds. Only one helper folder can use port 18743 at a time.
 

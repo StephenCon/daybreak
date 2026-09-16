@@ -18,7 +18,7 @@
       return minutes>=1&&minutes<=180?[item(`Focus for ${minutes} minutes`,'◷','focus',minutes)]:[];
     }
     const palettes=api.palettes().map(([id,palette])=>({...item('Theme: '+palette.name,'◐','palette',id,api.palette()===id?'Selected':palette.description),swatches:document.documentElement.dataset.theme==='evening'?palette.dark:palette.light}));
-    const all=[...choices(),...palettes];
+    const all=[...choices(),...palettes,item('Connect accounts','↗','accounts',null,'Google Calendar GitHub sign in setup')];
     if(!text)return choices();
     return all.filter(row=>(row.label+' '+row.hint).toLowerCase().includes(text.toLowerCase()));
   }

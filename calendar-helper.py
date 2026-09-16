@@ -7,6 +7,9 @@ import json
 import os
 from pathlib import Path
 import secrets
+import shutil
+import subprocess
+import sys
 import threading
 import time
 import urllib.parse as url
@@ -15,6 +18,7 @@ import urllib.error
 import webbrowser
 from datetime import datetime, timedelta
 from http.server import ThreadingHTTPServer as HTTPServer, BaseHTTPRequestHandler
+from accounts_page import render as render_accounts
 
 ROOT = Path(__file__).resolve().parent
 VAULT = ROOT / '.calendar-credentials'
@@ -26,6 +30,7 @@ WAKE = threading.Event()
 CSRF = secrets.token_urlsafe(32)
 pending = None
 credentials = {}
+github_login_process = None
 
 
 class Blob(ctypes.Structure):
@@ -172,17 +177,15 @@ class Handler(BaseHTTPRequestHandler):
                     return self.respond('Google sign-in could not be saved. Check your OAuth client and try again. Your existing connection is unchanged. <a href="/">Return</a>', 400)
         if parsed.path != '/':
             return self.respond('Not found', 404)
-        connected = bool(credentials.get('refresh_token'))
-        self.respond('''<!doctype html><meta name="viewport" content="width=device-width"><title>Daybreak Calendar</title>
-        <style>:root{color-scheme:light dark}body{font:16px/1.6 system-ui;max-width:640px;margin:70px auto;padding:24px}h1{font-family:Georgia}textarea{box-sizing:border-box;width:100%;height:150px}button{padding:12px 20px;margin-top:14px}a{color:inherit}</style>
-        <h1>Connect your calendar.</h1><p>''' + ('Google Calendar is connected.' if connected else 'One sign-in. Your schedule, quietly up to date.') + '''</p>
-        <p>In Google Cloud, enable the Google Calendar API, configure OAuth consent and add yourself as a test user. Create an OAuth client with application type <strong>Desktop app</strong>. Download its JSON and paste the contents below. See CALENDAR-SETUP.md in your homepage folder for the steps.</p>
-        <p>Daybreak only reads scheduled events. Credentials are encrypted for your Windows account. Keep this helper running to refresh every minute.</p>
-        <form method="post" action="/connect"><input type="hidden" name="csrf" value="''' + CSRF + '''"><label for="client">Desktop OAuth client JSON</label><textarea id="client" name="client" required spellcheck="false" autocomplete="off"></textarea><button>Sign in with Google</button></form>
-        <form method="post" action="/disconnect"><input type="hidden" name="csrf" value="''' + CSRF + '''"><button>Disconnect and clear saved calendar</button></form>''')
+        try:
+            github_status = json.loads((ROOT / 'github-data.js').read_text(encoding='utf-8').split('=', 1)[1].strip().rstrip(';')).get('status')
+        except (OSError, ValueError, IndexError, AttributeError):
+            github_status = None
+        available = bool(shutil.which('gh') or Path(r'C:\Program Files\GitHub CLI\gh.exe').is_file())
+        self.respond(render_accounts(CSRF, bool(credentials.get('refresh_token')), read_cache().get('status'), github_status, available))
 
     def do_POST(self):
-        global pending, credentials
+        global pending, credentials, github_login_process
         if not self.allowed() or self.headers.get('Origin') != BASE:
             return self.respond('Forbidden', 403)
         try:
@@ -192,6 +195,16 @@ class Handler(BaseHTTPRequestHandler):
             form = url.parse_qs(self.rfile.read(length).decode())
             if not secrets.compare_digest(form.get('csrf', [''])[0], CSRF):
                 return self.respond('Expired form. Reload this page.', 403)
+            if self.path == '/github-connect':
+                with LOCK:
+                    if github_login_process is None or github_login_process.poll() is not None:
+                        try:
+                            github_login_process = subprocess.Popen(
+                                [sys.executable, str(ROOT / 'github-login.py')], cwd=str(ROOT),
+                                creationflags=getattr(subprocess, 'CREATE_NEW_CONSOLE', 0))
+                        except OSError:
+                            return self.respond('Could not open GitHub sign-in. Run gh auth login in a terminal. <a href="/">Return</a>', 500)
+                return self.respond('GitHub sign-in is open in a terminal. Follow its instructions, then return to Daybreak. <a href="/">Refresh connections</a>')
             if self.path == '/disconnect':
                 with LOCK:
                     credentials = {}
@@ -238,7 +251,7 @@ def main():
     github = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(github)
     threading.Thread(target=github.worker, daemon=True).start()
-    if not credentials:
+    if not credentials or '--setup' in sys.argv:
         webbrowser.open(BASE)
     server.serve_forever()
 

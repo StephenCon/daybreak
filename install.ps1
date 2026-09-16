@@ -11,6 +11,7 @@ $source = [IO.Path]::GetFullPath($PSScriptRoot)
 $files = @(
     'index.html', 'app.js', 'daybreak.css', 'themes.js', 'menu.js', 'layout.js',
     'calendar-helper.py', 'calendar-live.js', 'github-sync.py', 'github-widget.js',
+    'accounts.js', 'accounts_page.py', 'github-login.py', 'Connect accounts.cmd', 'launch-accounts.ps1',
     'weather.js', 'weather-config.js', 'launch.ps1', 'Open Daybreak.cmd',
     'Start Calendar.cmd', 'README.md', 'CALENDAR-SETUP.md', 'LICENSE',
     'assets\daybreak.svg', 'templates\calendar-data.js', 'templates\github-data.js'
@@ -66,6 +67,13 @@ if (-not $NoShortcuts) {
     $shortcut.Description = 'Daybreak - your daily start'
     $shortcut.IconLocation = (Join-Path $env:SystemRoot 'System32\shell32.dll') + ',13'
     $shortcut.Save()
+    $accounts = $shell.CreateShortcut((Join-Path $desktop 'Daybreak Accounts.lnk'))
+    $accounts.TargetPath = $shortcut.TargetPath
+    $accounts.Arguments = '-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "' + (Join-Path $Destination 'launch-accounts.ps1') + '"'
+    $accounts.WorkingDirectory = $Destination
+    $accounts.Description = 'Connect Google Calendar and GitHub to Daybreak'
+    $accounts.IconLocation = $shortcut.IconLocation
+    $accounts.Save()
 }
 Write-Host "Installed in $Destination" -ForegroundColor Green
 Write-Host "Homepage address: $url"

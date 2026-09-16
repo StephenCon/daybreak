@@ -116,6 +116,7 @@
    if(action==='break'){setTimer(300,'break');state.timer.end=Date.now()+300000;save();reveal('timer');tick();return}
    if(action==='layout'){if(!editing){editing=true;render()}$('#layout-tools').scrollIntoView({block:'start'});return}
    if(action==='settings'){$('#settings-open').click();return}
+   if(action==='accounts'){window.DAYBREAK_OPEN_ACCOUNTS();return}
    if(action==='weather'){$('#weather-settings').click();return}
    if(action==='backup'){$('#export').click();return}
    if(action==='new-task'){reveal('tasks');$('[aria-label="New task"]')?.focus();return}

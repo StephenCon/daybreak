@@ -6,7 +6,7 @@ The optional helper reads scheduled events from your primary Google Calendar. It
 2. Configure Google Auth Platform's Branding, Audience and Data Access. For personal Google accounts, use External and add yourself as a test user while the app is in Testing.
 3. Add the read-only scope `https://www.googleapis.com/auth/calendar.events.readonly`.
 4. Create an OAuth client with type **Desktop app** and download its JSON. Keep it private, outside this repository.
-5. Run **Start Calendar.cmd**. It starts the helper hidden and opens its connection screen at `http://127.0.0.1:18743/`.
+5. Run **Connect accounts.cmd** or the **Daybreak Accounts** desktop shortcut. It starts the helper hidden and opens its connection screen at `http://127.0.0.1:18743/`. The same guide is available inside Settings → Connect accounts.
 6. Paste the downloaded client's JSON into that local screen and select **Sign in with Google**. Check the app and requested scope before granting consent.
 7. Return to Daybreak. The helper refreshes every minute; the homepage checks its output every 30 seconds.
 

@@ -5,6 +5,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import time
+import uuid
 from datetime import datetime
 
 ROOT = Path(__file__).resolve().parent
@@ -48,9 +49,12 @@ def sync():
     except Exception:
         saved['status'] = 'unavailable'
     saved['checkedAt'] = datetime.now().astimezone().isoformat()
-    temp = target.with_suffix('.js.tmp')
-    temp.write_text('window.DAYBREAK_GITHUB = ' + json.dumps(saved, ensure_ascii=True) + ';\n', encoding='utf-8')
-    os.replace(temp, target)
+    temp = target.with_suffix('.js.' + uuid.uuid4().hex + '.tmp')
+    try:
+        temp.write_text('window.DAYBREAK_GITHUB = ' + json.dumps(saved, ensure_ascii=True) + ';\n', encoding='utf-8')
+        os.replace(temp, target)
+    finally:
+        temp.unlink(missing_ok=True)
     return saved
 
 

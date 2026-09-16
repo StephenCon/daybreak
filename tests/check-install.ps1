@@ -8,6 +8,10 @@ New-Item -ItemType Directory -Path $shortcuts -Force | Out-Null
 foreach ($name in @('index.html','calendar-data.js','github-data.js','Homepage setup.txt','launch.ps1')) {
     if (-not (Test-Path -LiteralPath (Join-Path $target $name))) { throw "Missing installed file: $name" }
 }
+foreach ($name in @('accounts.js','accounts_page.py','github-login.py','Connect accounts.cmd','launch-accounts.ps1')) {
+    if (-not (Test-Path -LiteralPath (Join-Path $target $name))) { throw "Missing account setup file: $name" }
+}
+if (-not (Test-Path -LiteralPath (Join-Path $shortcuts 'Daybreak Accounts.lnk'))) { throw 'Missing accounts shortcut' }
 $shell = New-Object -ComObject WScript.Shell
 $shortcut = $shell.CreateShortcut((Join-Path $shortcuts 'Daybreak.lnk'))
 if ($shortcut.Arguments -notlike '*-File "*Daybreak with spaces\launch.ps1"') { throw 'Shortcut quoting failed' }

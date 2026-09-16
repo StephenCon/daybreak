@@ -13,7 +13,8 @@ open();query('focus 25');key('Enter');assert.deepEqual(actions.pop(),['focus',25
 open();query('focus 181');assert.equal(list.children.length,0);key('Enter');assert(dialog.open);
 query('task '+'x'.repeat(501));assert.equal(list.children.length,0);
 query('theme');assert.equal(list.children.length,2);key('End');key('Enter');assert.deepEqual(actions.pop(),['palette','hacker']);open();
-query('GitHub');key('End');key('Enter');assert.equal(context.location.href,'https://github.com/');
+query('GitHub');key('Home');key('Enter');assert.equal(context.location.href,'https://github.com/');
+open();query('Connect accounts');key('Enter');assert.deepEqual(actions.pop(),['accounts',null]);
 events.keydown({ctrlKey:true,key:'k',preventDefault(){}});assert(dialog.open);
 key('ArrowUp');assert.equal(input.attrs['aria-activedescendant'],'command-option-3');
 events.keydown({ctrlKey:true,key:'k',preventDefault(){}});assert(!dialog.open);
