@@ -2123,6 +2123,12 @@ body:not(.editing)
 .desktop .weather-place {
   overflow-wrap: anywhere;
 }
+.desktop > .tile[data-widget='spotify'] + .tile[data-widget='weather'] {
+  border-left: 1px solid var(--line) !important;
+}
+.desktop > .tile[data-widget='spotify'] + .tile[data-widget='weather'] > .tile-body {
+  padding-left: 20px;
+}
 .desktop .tile[data-widget='spotify'] .tile-body {
   width: 100%;
   max-width: 320px;
@@ -2209,6 +2215,14 @@ body:not(.editing)
   }
   .desktop .intro h1 {
     font-size: 36px;
+  }
+  .desktop > .tile[data-widget='spotify'] + .tile[data-widget='weather'] {
+    border-left: 0 !important;
+    border-top: 1px solid var(--line) !important;
+  }
+  .desktop > .tile[data-widget='spotify'] + .tile[data-widget='weather'] > .tile-body {
+    padding-left: 0;
+    padding-top: 20px;
   }
   .desktop .weather-widget,
   .desktop .tile[data-widget='spotify'] .tile-body {
