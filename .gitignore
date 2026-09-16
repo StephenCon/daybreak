@@ -3,6 +3,7 @@
 /calendar-data.js
 /github-data.js
 /weather-config.local.js
+/Homepage setup.txt
 client_secret*.json
 credentials*.json
 token*.json

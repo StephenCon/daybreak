@@ -4,9 +4,15 @@ A quiet place to start your day. A personal homepage that runs from a folder on 
 
 ## Get started
 
-1. Select **Code → Download ZIP** on GitHub, then extract it to a permanent folder. Or clone this repository.
-2. On Windows, double-click **Open Daybreak.cmd**. It creates empty, ignored integration caches and opens the homepage in your default browser. If needed, open `index.html` in Chrome afterwards.
-3. Add your links, choose your weather city, and make yourself at home.
+1. **[Download Daybreak for Windows](https://github.com/StephenCon/daybreak/releases/latest/download/Daybreak-Windows.zip)** and select **Extract all**.
+2. Double-click **Install Daybreak.cmd** inside the extracted folder.
+3. Setup installs to `%LOCALAPPDATA%\Daybreak`, creates a **Daybreak desktop shortcut**, and opens the homepage in Chrome (or your default browser if Chrome isn't installed). A text window shows your homepage address and Chrome setup steps.
+
+No administrator access, Python or sign-in is needed for the core homepage. Once installed, the extracted download folder can be deleted. Re-run a newer installer to update the same location; it preserves existing integration caches, credentials and weather configuration. Chrome settings are not changed automatically.
+
+Already using Daybreak in another folder? Export a backup from that page first, then restore it in the installed page's Settings. Browser storage can be specific to the file path. Keep using your old installation until you have restored your data. The installer does not move or stop an existing calendar helper; optional sync should run from only one folder.
+
+Prefer a portable copy? Use **Code → Download ZIP**, extract it to a permanent folder, and run **Open Daybreak.cmd** without installing.
 
 On other systems, copy `templates/calendar-data.js` and `templates/github-data.js` into the root folder once, then open `index.html`. The core homepage is browser-based; the optional Google Calendar helper currently requires Windows.
 
@@ -61,6 +67,12 @@ Edit the source files and reload the page. Node.js is needed only for checks:
 ```sh
 npm test
 python -m unittest discover -s tests -p "test_*.py"
+```
+
+On Windows, test installation and updates in a disposable folder without opening a browser:
+
+```powershell
+powershell -NoProfile -File tests/check-install.ps1 -TestRoot "$env:TEMP\Daybreak-install-test"
 ```
 
 Checks cover saved-state migration, palettes/contrast, transition cleanup, command-menu behavior, and GitHub account changes. Browser appearance and integration sign-in still need manual checks. The development environment could not visually inspect the final public package.
