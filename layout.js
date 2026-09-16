@@ -5,7 +5,7 @@
   const columns = (key) => ({ wide: 12, medium: 6, narrow: 1 })[key];
   const overlap = (a, b) =>
     a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
-  function validate(layouts, ids) {
+  function validate(layouts, ids, maxRow = 10000) {
     if (layouts === undefined || layouts === null) return {};
     if (typeof layouts !== 'object' || Array.isArray(layouts)) throw Error('Invalid tile sizes.');
     const clean = {};
@@ -27,7 +27,7 @@
           !['x', 'y', 'w', 'h'].every((n) => Number.isInteger(box[n])) ||
           box.x < 0 ||
           box.y < 0 ||
-          box.y > 3000 ||
+          box.y > maxRow ||
           box.w < minWidth ||
           box.w > columns(key) ||
           box.x + box.w > columns(key) ||
@@ -39,6 +39,36 @@
       }
     }
     return clean;
+  }
+  function expandPage(layouts, enabled) {
+    if (!enabled) return layouts;
+    for (const [key, map] of Object.entries(layouts)) {
+      const header =
+        key === 'wide'
+          ? {
+              greeting: { x: 0, y: 0, w: 4, h: 11 },
+              spotify: { x: 4, y: 0, w: 5, h: 11 },
+              weather: { x: 9, y: 0, w: 3, h: 11 },
+            }
+          : key === 'medium'
+            ? {
+                greeting: { x: 0, y: 0, w: 6, h: 9 },
+                spotify: { x: 0, y: 9, w: 3, h: 11 },
+                weather: { x: 3, y: 9, w: 3, h: 11 },
+              }
+            : {
+                greeting: { x: 0, y: 0, w: 1, h: 9 },
+                spotify: { x: 0, y: 9, w: 1, h: 11 },
+                weather: { x: 0, y: 20, w: 1, h: 9 },
+              };
+      const offset = Math.max(...Object.values(header).map((box) => box.y + box.h));
+      // Retain the lower widgets' sizes, relative positions and gaps.
+      for (const [id, box] of Object.entries(map)) {
+        if (id !== 'spotify') box.y += offset;
+      }
+      Object.assign(map, header);
+    }
+    return layouts;
   }
   function settle(map, active, ids) {
     const placed = [map[active]];
@@ -330,5 +360,5 @@
       window.removeEventListener('resize', refresh);
     };
   }
-  window.DAYBREAK_LAYOUT = { validate, settle, overlap, pack, packCurrent, attach };
+  window.DAYBREAK_LAYOUT = { validate, expandPage, settle, overlap, pack, packCurrent, attach };
 })();

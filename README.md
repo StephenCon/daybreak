@@ -93,7 +93,7 @@ Every theme has light and dark colours. Appearance follows your system by defaul
 | `theme`            | Choose a theme                  |
 | `accounts`         | Open Connect accounts           |
 
-In **Edit layout**, drag tile headings to move them and corners to resize. Keyboard users can use arrow keys on a heading to move, **Shift + arrows** to resize, and **Escape** to cancel a drag. **Done** packs tiles together; **Pack tiles** previews the result.
+In **Edit layout**, drag tile headings to move them and corners to resize. The greeting and weather are editable tiles too, so every section of your dashboard can be moved, resized, or hidden. Spotify starts to the left of the weather on desktop; narrow windows stack the tiles. Existing saved layouts keep their content and lower tile sizes while gaining the new top row. Keyboard users can use arrow keys on a heading to move, **Shift + arrows** to resize, and **Escape** to cancel a drag. **Done** packs tiles together; **Pack tiles** previews the result.
 
 ## Connect your accounts
 

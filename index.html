@@ -26,15 +26,15 @@
             : 'light';
       })();
     </script>
-    <link rel="stylesheet" href="daybreak.css" />
+    <link rel="stylesheet" href="daybreak.css?v=1.4" />
     <link rel="stylesheet" href="spotify.css" />
     <script src="calendar-data.js" defer></script>
     <script src="github-data.js" defer></script>
     <script src="github-widget.js" defer></script>
-    <script src="layout.js" defer></script>
+    <script src="layout.js?v=1.4" defer></script>
     <script src="spotify-data.js" defer></script>
     <script src="spotify-widget.js" defer></script>
-    <script src="app.js?v=1.3" defer></script>
+    <script src="app.js?v=1.4" defer></script>
     <script src="menu.js?v=1.3" defer></script>
     <script src="calendar-live.js" defer></script>
     <script src="weather-config.js" defer></script>
@@ -66,23 +66,25 @@
       </div>
     </header>
     <main id="main">
-      <section class="intro">
-        <div>
-          <div class="eyebrow" id="greeting-date">YOUR DAILY START</div>
-          <h1 id="greeting">Good to see you.</h1>
-          <p>Your space to think, find, and begin.</p>
-        </div>
+      <div id="widget-parking" hidden>
+        <section id="greeting-content" class="intro">
+          <div>
+            <div class="eyebrow" id="greeting-date">YOUR DAILY START</div>
+            <h1 id="greeting">Good to see you.</h1>
+            <p>Your space to think, find, and begin.</p>
+          </div>
+        </section>
         <section id="weather-widget" class="weather-widget" aria-label="Local weather"></section>
-      </section>
+      </div>
       <div id="storage-warning" class="warning" role="status" hidden></div>
       <section id="layout-tools" class="layout-tools" aria-label="Layout controls" hidden>
         <div>
           <strong>Make yourself at home</strong>
           <p>
-            Drag a heading to move a tile; drag its corner to resize. Tiles snap to the grid and
-            make room for each other. Use arrow keys on a heading to move, or Shift + arrows to
-            resize. Escape cancels a drag. Done packs tiles together automatically; use Pack tiles
-            to preview.
+            Move and resize any page section, including the greeting and weather. Drag a heading to
+            move a tile; drag its corner to resize. Tiles snap to the grid and make room for each
+            other. Use arrow keys on a heading to move, or Shift + arrows to resize. Escape cancels
+            a drag. Done packs tiles together automatically; use Pack tiles to preview.
           </p>
         </div>
         <div id="visibility"></div>

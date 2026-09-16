@@ -1,8 +1,22 @@
 (() => {
   'use strict';
   const KEY = 'neon-desktop.v1',
-    IDS = ['search', 'links', 'clock', 'agenda', 'tasks', 'notes', 'github', 'spotify', 'timer'];
+    IDS = [
+      'greeting',
+      'spotify',
+      'weather',
+      'search',
+      'links',
+      'clock',
+      'agenda',
+      'tasks',
+      'notes',
+      'github',
+      'timer',
+    ];
   const titles = {
+    greeting: 'Greeting',
+    weather: 'Weather',
     search: 'Search',
     links: 'Your favourites',
     clock: 'Here & now',
@@ -14,6 +28,8 @@
     spotify: 'Now playing',
   };
   const symbols = {
+    greeting: '☀',
+    weather: '☁',
     search: '⌘',
     links: '↗',
     clock: '◷',
@@ -56,6 +72,7 @@
     }
   }
   function validate(s) {
+    let expandPage = false;
     if (
       s &&
       Array.isArray(s.order) &&
@@ -89,6 +106,21 @@
     ) {
       s = { ...s, order: [...s.order] };
       s.order.splice(s.order.indexOf('timer'), 0, 'spotify');
+    }
+    if (
+      s &&
+      Array.isArray(s.order) &&
+      s.order.length === 9 &&
+      !s.order.includes('greeting') &&
+      !s.order.includes('weather') &&
+      new Set(s.order).size === 9 &&
+      s.order.every((id) => IDS.includes(id))
+    ) {
+      s = {
+        ...s,
+        order: ['greeting', 'spotify', 'weather', ...s.order.filter((id) => id !== 'spotify')],
+      };
+      expandPage = true;
     }
     if (
       !s ||
@@ -159,7 +191,10 @@
       throw Error('Invalid timer.');
     return {
       version: 1,
-      layouts: window.DAYBREAK_LAYOUT.validate(s.layouts, IDS),
+      layouts: window.DAYBREAK_LAYOUT.expandPage(
+        window.DAYBREAK_LAYOUT.validate(s.layouts, IDS, expandPage ? 3000 : 10000),
+        expandPage,
+      ),
       links: s.links.map(({ id, name, url }) => ({ id, name, url })),
       tasks: s.tasks.map(({ id, text, done }) => ({ id, text, done })),
       notes: s.notes,
@@ -267,8 +302,11 @@
   systemTheme.addEventListener('change', () => {
     if (state.theme === 'system') applyPrefs();
   });
+  const persistentWidgets = { greeting: $('#greeting-content'), weather: $('#weather-widget') };
   function render() {
     const desktop = $('#desktop');
+    // Keep the weather instance and its event listeners alive across layout edits.
+    $('#widget-parking').append(...Object.values(persistentWidgets));
     desktop.replaceChildren();
     desktop.classList.remove('custom-grid');
     desktop.style.minHeight = '';
@@ -370,6 +408,12 @@
     target?.focus();
   }
   const renderers = {
+    greeting(body) {
+      body.append(persistentWidgets.greeting);
+    },
+    weather(body) {
+      body.append(persistentWidgets.weather);
+    },
     spotify(body) {
       window.DAYBREAK_RENDER_SPOTIFY(body);
     },

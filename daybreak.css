@@ -2047,3 +2047,122 @@ dialog {
     font-size: 24px;
   }
 }
+
+/* All page content shares one editable grid, including the former header widgets. */
+.desktop:not(.custom-grid) {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+.desktop:not(.custom-grid) > .tile {
+  grid-column: span 4;
+}
+.desktop:not(.custom-grid) > .tile[data-widget='greeting'] {
+  grid-column: span 4;
+}
+.desktop:not(.custom-grid) > .tile[data-widget='spotify'] {
+  grid-column: span 5;
+}
+.desktop:not(.custom-grid) > .tile[data-widget='weather'] {
+  grid-column: span 3;
+}
+.desktop:not(.custom-grid) > .tile:is([data-widget='links'], [data-widget='notes']) {
+  grid-column: span 8;
+}
+.desktop:not(.custom-grid) > .tile:is([data-widget='search'], [data-widget='timer']) {
+  grid-column: 1 / -1;
+}
+.desktop > .tile:is([data-widget='greeting'], [data-widget='weather']) {
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+.desktop > .tile:is([data-widget='greeting'], [data-widget='weather']) > .tile-body {
+  padding: 12px 0;
+  min-width: 0;
+}
+body:not(.editing) .tile:is([data-widget='greeting'], [data-widget='weather']) > .tile-head {
+  display: none;
+}
+.desktop .intro {
+  display: block;
+  margin: 0;
+}
+.desktop .intro h1 {
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  overflow-wrap: anywhere;
+}
+.desktop .intro p {
+  max-width: none;
+  line-height: 1.6;
+  font-size: 13px;
+}
+.desktop .weather-widget {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+.desktop .weather-top,
+.desktop .weather-bottom,
+.desktop .weather-main {
+  flex-wrap: wrap;
+}
+.desktop .weather-place {
+  overflow-wrap: anywhere;
+}
+.desktop .tile[data-widget='spotify'] .tile-body {
+  padding-top: 4px;
+}
+.desktop .tile[data-widget='spotify'] .spotify-art {
+  width: 56px;
+  height: 56px;
+}
+.desktop .tile[data-widget='spotify'] .spotify-track {
+  gap: 12px;
+  margin: 0 0 10px;
+}
+.desktop .tile[data-widget='spotify'] .spotify-title {
+  font-size: 16px;
+}
+.editing .tile:is([data-widget='greeting'], [data-widget='weather']) {
+  outline: 1px dashed var(--line);
+}
+.editing .tile:is([data-widget='greeting'], [data-widget='weather']) .tile-head {
+  padding: 0 8px;
+}
+@media (max-width: 1100px) {
+  .desktop:not(.custom-grid) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .desktop:not(.custom-grid) > .tile,
+  .desktop:not(.custom-grid)
+    > .tile:is(
+      [data-widget='spotify'],
+      [data-widget='weather'],
+      [data-widget='links'],
+      [data-widget='notes']
+    ) {
+    grid-column: span 3;
+  }
+  .desktop:not(.custom-grid)
+    > .tile:is([data-widget='greeting'], [data-widget='search'], [data-widget='timer']) {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 650px) {
+  .desktop:not(.custom-grid) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .desktop:not(.custom-grid) > .tile[data-widget] {
+    grid-column: 1 / -1;
+  }
+  .desktop .intro h1 {
+    font-size: 36px;
+  }
+}

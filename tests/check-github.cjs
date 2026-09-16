@@ -19,18 +19,39 @@ for (const version of [6, 7, 8, 9]) {
   const original = context.window.test.defaults();
   original.notes = 'Keep my notes';
   original.order = original.order
+    .filter((id) => !['greeting', 'weather'].includes(id))
     .filter((id) => version === 9 || id !== 'spotify')
     .filter((id) => version >= 8 || id !== 'github')
     .filter((id) => version !== 6 || id !== 'agenda');
   original.layouts = { wide: { notes: { x: 0, y: 0, w: 6, h: 10 } } };
   original.hidden = ['clock'];
   const next = context.window.test.validate(original);
-  assert.equal(next.order.length, 9);
+  assert.equal(next.order.length, 11);
   assert.equal(next.notes, original.notes);
   assert.equal(next.hidden[0], 'clock');
-  assert.deepEqual(next.layouts.wide.notes, original.layouts.wide.notes);
+  assert.deepEqual(next.layouts.wide.notes, { x: 0, y: 11, w: 6, h: 10 });
+  assert.equal(original.layouts.wide.notes.y, 0, 'migration must not mutate the backup');
+  assert.deepEqual(Array.from(next.order.slice(0, 3)), ['greeting', 'spotify', 'weather']);
+  assert.equal(
+    next.layouts.wide.spotify.x + next.layouts.wide.spotify.w,
+    next.layouts.wide.weather.x,
+  );
+  assert.deepEqual(context.window.test.validate(next), next, 'migration only happens once');
   assert.equal(next.order.filter((id) => id === 'spotify').length, 1);
   assert.equal(next.order.filter((id) => id === 'github').length, 1);
+}
+for (const [key, width, offset] of [
+  ['wide', 6, 11],
+  ['medium', 3, 20],
+  ['narrow', 1, 29],
+]) {
+  const original = context.window.test.defaults();
+  original.order = original.order.filter((id) => !['greeting', 'weather'].includes(id));
+  original.layouts = { [key]: { notes: { x: 0, y: 3000, w: width, h: 10 } } };
+  const next = context.window.test.validate(original);
+  assert.equal(next.layouts[key].notes.y, 3000 + offset);
+  next.hidden.push('greeting', 'weather');
+  assert.deepEqual(context.window.test.validate(JSON.parse(JSON.stringify(next))), next);
 }
 assert.throws(() =>
   context.window.test.validate({ ...context.window.test.defaults(), order: ['invalid'] }),
@@ -99,5 +120,5 @@ body = new Element('div');
 ui.window.DAYBREAK_RENDER_ISSUES(body);
 assert(body.text.includes('Waiting for GitHub'));
 console.log(
-  'PASS: 6/7/8/9-widget migrations, preserved notes/layouts/hidden tiles, invalid layouts, safe text/links, live and unavailable states',
+  'PASS: 6/7/8/9 to 11-widget migrations, responsive positions and backup round trips, preserved notes/hidden tiles, safe text/links, live and unavailable states',
 );
