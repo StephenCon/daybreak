@@ -3,6 +3,11 @@
   "version": "1.3.0",
   "private": true,
   "scripts": {
-    "test": "node tests/check-themes.cjs && node tests/check-menu.cjs && node tests/check-github.cjs && node tests/check-spotify.cjs"
+    "test": "node tests/check-themes.cjs && node tests/check-menu.cjs && node tests/check-github.cjs && node tests/check-spotify.cjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "3.9.7"
   }
 }

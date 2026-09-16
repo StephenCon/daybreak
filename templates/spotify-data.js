@@ -1,1 +1,1 @@
-window.DAYBREAK_SPOTIFY = {status:'disconnected'};
+window.DAYBREAK_SPOTIFY = { status: 'disconnected' };

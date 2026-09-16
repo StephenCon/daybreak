@@ -1,0 +1,7 @@
+node_modules/
+/calendar-data.js
+/github-data.js
+/spotify-data.js
+.calendar-credentials*
+.spotify-credentials*
+package-lock.json

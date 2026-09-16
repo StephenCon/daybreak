@@ -18,14 +18,14 @@ Local files · No frontend dependencies · Nine themes · Optional account conne
 
 Daybreak brings your daily essentials into one calm, customisable page. Search the web, capture a thought, check your schedule, and settle into a focus session.
 
-| Your everyday essentials | Make it yours |
-| --- | --- |
-| Google, DuckDuckGo and YouTube search | Drag and resize widgets on a transparent editing grid |
-| Favourite links, tasks and an autosaving scratchpad | Hide widgets and pack the layout neatly with **Done** |
-| Local clock and focus/break timer | Choose from nine themes with distinct fonts and styling |
-| Weather for your chosen city | Follow your system's light/dark appearance |
-| Optional Google Calendar and GitHub issues | Use **Ctrl+K** for quick actions and theme switching |
-| Spotify Now Playing with playback controls | Album art and a progress bar that follow your theme |
+| Your everyday essentials                            | Make it yours                                           |
+| --------------------------------------------------- | ------------------------------------------------------- |
+| Google, DuckDuckGo and YouTube search               | Drag and resize widgets on a transparent editing grid   |
+| Favourite links, tasks and an autosaving scratchpad | Hide widgets and pack the layout neatly with **Done**   |
+| Local clock and focus/break timer                   | Choose from nine themes with distinct fonts and styling |
+| Weather for your chosen city                        | Follow your system's light/dark appearance              |
+| Optional Google Calendar and GitHub issues          | Use **Ctrl+K** for quick actions and theme switching    |
+| Spotify Now Playing with playback controls          | Album art and a progress bar that follow your theme     |
 
 The core homepage runs directly from a folder. No server, account, Python installation or build step is needed to use search, links, tasks, notes, clock and timer.
 
@@ -58,10 +58,10 @@ The homepage itself is browser-based. The installer and Google Calendar helper c
 
 Open Daybreak in Chrome and copy its `file:///.../index.html` address, or find it in the installed **Homepage setup.txt** file.
 
-| When Daybreak should open | Chrome setting |
-| --- | --- |
-| Clicking the Home button | **Settings → Appearance → Show Home button → Custom address** |
-| Starting Chrome | **Settings → On startup → Open a specific page or set of pages → Add a new page** |
+| When Daybreak should open | Chrome setting                                                                    |
+| ------------------------- | --------------------------------------------------------------------------------- |
+| Clicking the Home button  | **Settings → Appearance → Show Home button → Custom address**                     |
+| Starting Chrome           | **Settings → On startup → Open a specific page or set of pages → Add a new page** |
 
 Paste your Daybreak address into each setting you want to use. Setup does not change these settings automatically. This does not replace Chrome's **New Tab** page. [Chrome's setup guide](https://support.google.com/chrome/answer/95314?hl=en) explains the separate Home and startup settings.
 
@@ -69,29 +69,29 @@ Paste your Daybreak address into each setting you want to use. Setup does not ch
 
 Press **Ctrl+K**, type **theme**, and choose a look.
 
-| Theme | Feel |
-| --- | --- |
-| **Daybreak** — default | Warm cream, sage and quiet editorial typography |
-| **Fireside** | Walnut, candlelight, bookish headings and soft panels |
-| **Nord** | Cool slate and airy blue |
-| **Gruvbox** | Earthy colours and soft amber |
-| **Rose Pine** | Dusty rose and muted violet |
-| **Tokyo Night** | Midnight blue and lavender |
-| **Hacker** | Terminal green and monospace lettering |
-| **Retro** | Parchment, burnt orange and typewriter styling |
-| **Cyberpunk** | Ink violet, cyan and pink |
+| Theme                  | Feel                                                  |
+| ---------------------- | ----------------------------------------------------- |
+| **Daybreak** — default | Warm cream, sage and quiet editorial typography       |
+| **Fireside**           | Walnut, candlelight, bookish headings and soft panels |
+| **Nord**               | Cool slate and airy blue                              |
+| **Gruvbox**            | Earthy colours and soft amber                         |
+| **Rose Pine**          | Dusty rose and muted violet                           |
+| **Tokyo Night**        | Midnight blue and lavender                            |
+| **Hacker**             | Terminal green and monospace lettering                |
+| **Retro**              | Parchment, burnt orange and typewriter styling        |
+| **Cyberpunk**          | Ink violet, cyan and pink                             |
 
 Every theme has light and dark colours. Appearance follows your system by default; **Settings → Appearance** lets you override it. Theme changes have a dramatic reveal, with a special ember effect for Fireside. Reduced-motion preferences skip the animation.
 
 ### Quick actions
 
-| Type in Ctrl+K | What happens |
-| --- | --- |
-| A favourite's name | Open that link |
-| `task buy milk` | Add a task |
-| `focus 25` | Start a 25-minute focus session |
-| `theme` | Choose a theme |
-| `accounts` | Open Connect accounts |
+| Type in Ctrl+K     | What happens                    |
+| ------------------ | ------------------------------- |
+| A favourite's name | Open that link                  |
+| `task buy milk`    | Add a task                      |
+| `focus 25`         | Start a 25-minute focus session |
+| `theme`            | Choose a theme                  |
+| `accounts`         | Open Connect accounts           |
 
 In **Edit layout**, drag tile headings to move them and corners to resize. Keyboard users can use arrow keys on a heading to move, **Shift + arrows** to resize, and **Escape** to cancel a drag. **Done** packs tiles together; **Pack tiles** previews the result.
 
@@ -153,14 +153,14 @@ The helper checks playback about every ten seconds while the tile is visible, st
 
 **Before moving folders:** use **Settings → Save backup**. Restore it through Settings at the new location, and keep your old installation until you have checked your data. Browser storage for local files can depend on the file path and browser profile.
 
-| Data | Where it lives |
-| --- | --- |
-| Tasks, notes, favourites, layout, theme and timer | Browser storage; included in Daybreak JSON backups |
-| Weather preferences and cached forecast | Separate browser storage; not included in those backups |
-| Google credentials | Encrypted `.calendar-credentials` file on Windows |
-| Calendar events and GitHub issues | Readable local cache files beside the app |
-| Spotify credentials | Windows-encrypted `.spotify-credentials`; not included in desktop backups |
-| Current Spotify playback | Ignored `spotify-data.js` cache, with a helper-session key limited to playback actions; no Spotify OAuth tokens |
+| Data                                              | Where it lives                                                                                                  |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Tasks, notes, favourites, layout, theme and timer | Browser storage; included in Daybreak JSON backups                                                              |
+| Weather preferences and cached forecast           | Separate browser storage; not included in those backups                                                         |
+| Google credentials                                | Encrypted `.calendar-credentials` file on Windows                                                               |
+| Calendar events and GitHub issues                 | Readable local cache files beside the app                                                                       |
+| Spotify credentials                               | Windows-encrypted `.spotify-credentials`; not included in desktop backups                                       |
+| Current Spotify playback                          | Ignored `spotify-data.js` cache, with a helper-session key limited to playback actions; no Spotify OAuth tokens |
 
 The repository and releases contain empty integration templates only. Generated caches and credentials are excluded by `.gitignore`. Do not force-add personal caches, OAuth JSON or backups to Git.
 
@@ -188,6 +188,11 @@ Run the checks with Node.js and Python:
 npm test
 python -m unittest discover -s tests -p "test_*.py"
 ```
+
+For consistent source formatting, install the pinned development tools once with `npm ci`,
+then use `npm run format` to format HTML, CSS, JavaScript and documentation.
+Run `npm run format:check` to check formatting without changing files.
+Prettier is a development-only dependency; the homepage still runs without Node.js or a build step.
 
 On Windows, test installation and updates in a disposable folder without opening a browser:
 

@@ -13,6 +13,7 @@ token*.json
 .env.*
 *backup*.json
 __pycache__/
+node_modules/
 *.pyc
 *.tmp
 .DS_Store
