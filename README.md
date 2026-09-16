@@ -1,72 +1,171 @@
+<div align="center">
+
 # Daybreak
 
-A quiet place to start your day. A personal homepage that runs from a folder on your computer: no build step, account or hosted backend required for the core widgets.
+### A little space for your day.
 
-## Get started
+A personal homepage with useful widgets, expressive themes, and a layout you can make your own.
 
-1. **[Download Daybreak for Windows](https://github.com/StephenCon/daybreak/releases/latest/download/Daybreak-Windows.zip)** and select **Extract all**.
-2. Double-click **Install Daybreak.cmd** inside the extracted folder.
-3. Setup installs to `%LOCALAPPDATA%\Daybreak`, creates a **Daybreak desktop shortcut**, and opens the homepage in Chrome (or your default browser if Chrome isn't installed). A text window shows your homepage address and Chrome setup steps.
+**[Download for Windows](https://github.com/StephenCon/daybreak/releases/latest/download/Daybreak-Windows.zip)** · **[Latest release](https://github.com/StephenCon/daybreak/releases/latest)** · **[Report an issue](https://github.com/StephenCon/daybreak/issues)**
 
-No administrator access, Python or sign-in is needed for the core homepage. Once installed, the extracted download folder can be deleted. Re-run a newer installer to update the same location; it preserves existing integration caches, credentials and weather configuration. Chrome settings are not changed automatically.
+Local files · No frontend dependencies · Nine themes · Optional account connections
 
-Already using Daybreak in another folder? Export a backup from that page first, then restore it in the installed page's Settings. Browser storage can be specific to the file path. Keep using your old installation until you have restored your data. The installer does not move or stop an existing calendar helper; optional sync should run from only one folder.
+</div>
 
-Prefer a portable copy? Use **Code → Download ZIP**, extract it to a permanent folder, and run **Open Daybreak.cmd** without installing.
+---
 
-On other systems, copy `templates/calendar-data.js` and `templates/github-data.js` into the root folder once, then open `index.html`. The core homepage is browser-based; the optional Google Calendar helper currently requires Windows.
+## Make yourself at home
 
-Keep the folder at a stable path. Browser storage for local files varies by browser; use **Settings → Save backup** before moving the folder or clearing browser data. Backups include tasks, notes, links, layout, theme and timer state. Weather preferences and integration caches are separate.
+Daybreak brings your daily essentials into one calm, customisable page. Search the web, capture a thought, check your schedule, and settle into a focus session.
 
-## What's inside
+| Your everyday essentials | Make it yours |
+| --- | --- |
+| Google, DuckDuckGo and YouTube search | Drag and resize widgets on a transparent editing grid |
+| Favourite links, tasks and an autosaving scratchpad | Hide widgets and pack the layout neatly with **Done** |
+| Local clock and focus/break timer | Choose from nine themes with distinct fonts and styling |
+| Weather for your chosen city | Follow your system's light/dark appearance |
+| Optional Google Calendar and GitHub issues | Use **Ctrl+K** for quick actions and theme switching |
 
-- Google, DuckDuckGo and YouTube search.
-- Editable favourite links, tasks, autosaving notes, a clock and a timestamp-based focus timer.
-- Optional local weather, Google Calendar events and open GitHub issues you created.
-- Drag and resize tiles in **Edit layout**. **Done** packs them together; keyboard controls and hide/show options are included.
-- **Ctrl+K** quick actions: search favourites, type `task buy milk`, `focus 25`, or `theme`.
-- Nine themes: Daybreak, Fireside, Nord, Gruvbox, Rose Pine, Tokyo Night, Hacker, Retro and Cyberpunk. Daybreak is the default; light/dark follows your system unless overridden.
-- Dramatic theme transitions with reduced-motion support. Fireside adds a cosy ember reveal.
-- Plain HTML, CSS and JavaScript, with local system-font stacks. No frontend dependencies or build tools.
+The core homepage runs directly from a folder. No server, account, Python installation or build step is needed to use search, links, tasks, notes, clock and timer.
 
-## Make it your Chrome homepage
+## Install on Windows
 
-Open `index.html` in Chrome and copy its `file:///.../index.html` address.
+1. **[Download Daybreak-Windows.zip](https://github.com/StephenCon/daybreak/releases/latest/download/Daybreak-Windows.zip)**.
+2. Right-click the ZIP and select **Extract all**.
+3. Open the extracted folder and double-click **Install Daybreak.cmd**.
 
-- **Home button:** Settings → Appearance → Show Home button → enter the custom address.
-- **Startup:** Settings → On startup → Open a specific page or set of pages → Add a new page → paste the same address.
+Setup installs to `%LOCALAPPDATA%\Daybreak` and creates two desktop shortcuts:
 
-These are separate settings. This does not replace Chrome's New Tab page. See [Chrome's setup guide](https://support.google.com/chrome/answer/95314?hl=en).
+- **Daybreak** opens your homepage in Chrome, or your default browser if Chrome isn't installed.
+- **Daybreak Accounts** opens the optional account helper, once Python is installed.
 
-## Optional integrations
+A text window shows your homepage address and Chrome setup instructions. No administrator access is required. After setup, you can delete the extracted download folder.
 
-Open **Settings → Connect accounts**, or type **accounts** in **Ctrl+K**. The guided screen shows last-sync status and explains each connection. Start the helper using the **Daybreak Accounts** desktop shortcut or **Connect accounts.cmd** in the app folder, then select **Open connection page**. A local webpage cannot start an executable itself.
+<details>
+<summary><strong>Prefer a portable copy, or use another operating system?</strong></summary>
 
-On that connection page, Google has an expandable first-time setup guide and a sign-in form. GitHub has a **Sign in with GitHub** button that opens the CLI's interactive browser-login flow. Neither connection is automatic or required to use Daybreak. If upgrading a running helper, restart it (or sign out of Windows and back in) before using the new connection page.
+Download the source using **Code → Download ZIP** and extract it to a permanent folder.
 
-### Weather
+- **Windows:** run **Open Daybreak.cmd**.
+- **Other systems:** copy `templates/calendar-data.js` and `templates/github-data.js` into the root folder, then open `index.html` in your browser.
 
-Choose a city in the widget. Forecasts and city search use [Open-Meteo](https://open-meteo.com/); no API key is needed. Requests begin after you select a location. A saved forecast remains available offline.
+The homepage itself is browser-based. The installer and Google Calendar helper currently require Windows. Keep the whole folder together and at a stable path.
+
+</details>
+
+### Set it as your Chrome homepage
+
+Open Daybreak in Chrome and copy its `file:///.../index.html` address, or find it in the installed **Homepage setup.txt** file.
+
+| When Daybreak should open | Chrome setting |
+| --- | --- |
+| Clicking the Home button | **Settings → Appearance → Show Home button → Custom address** |
+| Starting Chrome | **Settings → On startup → Open a specific page or set of pages → Add a new page** |
+
+Paste your Daybreak address into each setting you want to use. Setup does not change these settings automatically. This does not replace Chrome's **New Tab** page. [Chrome's setup guide](https://support.google.com/chrome/answer/95314?hl=en) explains the separate Home and startup settings.
+
+## Nine ways to start your day
+
+Press **Ctrl+K**, type **theme**, and choose a look.
+
+| Theme | Feel |
+| --- | --- |
+| **Daybreak** — default | Warm cream, sage and quiet editorial typography |
+| **Fireside** | Walnut, candlelight, bookish headings and soft panels |
+| **Nord** | Cool slate and airy blue |
+| **Gruvbox** | Earthy colours and soft amber |
+| **Rose Pine** | Dusty rose and muted violet |
+| **Tokyo Night** | Midnight blue and lavender |
+| **Hacker** | Terminal green and monospace lettering |
+| **Retro** | Parchment, burnt orange and typewriter styling |
+| **Cyberpunk** | Ink violet, cyan and pink |
+
+Every theme has light and dark colours. Appearance follows your system by default; **Settings → Appearance** lets you override it. Theme changes have a dramatic reveal, with a special ember effect for Fireside. Reduced-motion preferences skip the animation.
+
+### Quick actions
+
+| Type in Ctrl+K | What happens |
+| --- | --- |
+| A favourite's name | Open that link |
+| `task buy milk` | Add a task |
+| `focus 25` | Start a 25-minute focus session |
+| `theme` | Choose a theme |
+| `accounts` | Open Connect accounts |
+
+In **Edit layout**, drag tile headings to move them and corners to resize. Keyboard users can use arrow keys on a heading to move, **Shift + arrows** to resize, and **Escape** to cancel a drag. **Done** packs tiles together; **Pack tiles** previews the result.
+
+## Connect your accounts
+
+Open **Settings → Connect accounts**, or type **accounts** in **Ctrl+K**. The screen explains setup and shows the last local sync status.
+
+### First, start the helper
+
+1. Install [Python 3 for Windows](https://www.python.org/downloads/windows/) with its launcher.
+2. Open the **Daybreak Accounts** desktop shortcut, or run **Connect accounts.cmd** in the app folder.
+3. The helper opens its connection page at `http://127.0.0.1:18743/`.
+
+If the helper is already running, use **Open connection page** from Daybreak. A webpage cannot start the helper executable itself. Keep the helper running for automatic updates; you can close its browser tab.
 
 ### Google Calendar
 
-See [Calendar setup](CALENDAR-SETUP.md). Each person connects their own account using their own Google Cloud desktop OAuth client. The Windows helper uses Python's standard library and stores credentials encrypted for that Windows account.
+The connection page walks you through creating your own Google Cloud project, enabling Calendar, and creating a **Desktop app OAuth client**. Paste that client's JSON into the local connection page, then choose **Sign in with Google**.
+
+- Reads scheduled events from your **primary calendar**, including recurring and all-day events.
+- Requests read-only access; it cannot edit events.
+- Refreshes every minute, with the homepage checking the saved output every 30 seconds.
+- Stores credentials encrypted for your Windows account.
+
+Each person currently needs their own OAuth client. Google Tasks and additional calendars are not included. See the full [Calendar setup guide](CALENDAR-SETUP.md), including disconnecting and automatic startup.
 
 ### GitHub issues
 
-Install Python 3 and the [GitHub CLI](https://cli.github.com/), open **Connect accounts**, and select **Sign in with GitHub** on the helper page. Follow the terminal's browser-login instructions. You can also run `gh auth login` yourself. Daybreak uses that CLI account automatically; it reads open issues you authored, including private issues your login can access.
+Install [GitHub CLI](https://cli.github.com/), then choose **Sign in with GitHub** on the helper's connection page. A terminal guides you through GitHub's browser sign-in. Existing CLI logins are detected automatically; you can also run `gh auth login` yourself.
 
-Run `python github-sync.py` for a one-time refresh, or run **Start Calendar.cmd** to keep the shared helper refreshing GitHub every five minutes. Google sign-in is optional for GitHub: you can close the calendar connection page. The homepage picks up refreshed files every 30 seconds. Only one helper folder can use port 18743 at a time.
+- Shows open issues **you created**, ordered by most recently updated.
+- Displays the latest 30, with a link to the full list. Pull requests are excluded.
+- Includes private issues when your CLI account can access them.
+- Refreshes every five minutes; the homepage checks saved output every 30 seconds.
 
-## Your data
+Google sign-in is not required for GitHub. For a one-time refresh, run `python github-sync.py` from the app folder.
 
-The core homepage saves data in your browser. Live integrations write private caches beside the app. The repository contains empty templates only; generated caches, OAuth files and backups are excluded by `.gitignore`.
+### Weather
 
-Do not force-add `calendar-data.js`, `github-data.js`, `.calendar-credentials`, downloaded OAuth JSON or personal backups. GitHub issue and calendar caches contain readable private content even though OAuth credentials are encrypted. Share the GitHub download rather than zipping your used installation. This app is designed for local use, not deployment with personal caches to a public web host.
+Choose a city directly in the weather widget. Forecasts and city search use [Open-Meteo](https://open-meteo.com/), with no API key. Requests begin after you choose a location, and a saved forecast remains available offline.
+
+## Updates, backups and privacy
+
+**To update:** download the latest Windows ZIP, extract it, and run **Install Daybreak.cmd** again. Setup updates the same installation folder while preserving integration caches, credentials and weather configuration. Restart a running helper after updating; signing out of Windows and back in also stops the old process. Only one helper folder can use port 18743 at a time.
+
+**Before moving folders:** use **Settings → Save backup**. Restore it through Settings at the new location, and keep your old installation until you have checked your data. Browser storage for local files can depend on the file path and browser profile.
+
+| Data | Where it lives |
+| --- | --- |
+| Tasks, notes, favourites, layout, theme and timer | Browser storage; included in Daybreak JSON backups |
+| Weather preferences and cached forecast | Separate browser storage; not included in those backups |
+| Google credentials | Encrypted `.calendar-credentials` file on Windows |
+| Calendar events and GitHub issues | Readable local cache files beside the app |
+
+The repository and releases contain empty integration templates only. Generated caches and credentials are excluded by `.gitignore`. Do not force-add personal caches, OAuth JSON or backups to Git.
+
+**Share the GitHub download, rather than your used installation folder.** Daybreak is designed for local use; personal integration caches should never be deployed to a public web host.
+
+<details>
+<summary><strong>Troubleshooting</strong></summary>
+
+- **Connection page won't open:** start **Daybreak Accounts** first. Install Python if prompted.
+- **GitHub sign-in is unavailable:** install GitHub CLI, then reload the connection page.
+- **Google needs sign-in again:** reconnect through the helper. Google test-mode authorizations may need renewal.
+- **An update isn't visible:** reload with **Ctrl+Shift+R**. Restart the helper for connection-page changes.
+- **Theme changes happen instantly:** the current browser may be reporting reduced motion; Daybreak shows a message when it skips the animation.
+- **Data appears missing after moving:** reopen the old file in the original browser profile, export a backup, then restore it at the new location.
+
+</details>
 
 ## Development
 
-Edit the source files and reload the page. Node.js is needed only for checks:
+Plain HTML, CSS and JavaScript, plus optional Python standard-library helpers. Edit the source and reload; there is no frontend build step.
+
+Run the checks with Node.js and Python:
 
 ```sh
 npm test
@@ -79,6 +178,8 @@ On Windows, test installation and updates in a disposable folder without opening
 powershell -NoProfile -File tests/check-install.ps1 -TestRoot "$env:TEMP\Daybreak-install-test"
 ```
 
-Checks cover saved-state migration, palettes/contrast, transition cleanup, command-menu behavior, and GitHub account changes. Browser appearance and integration sign-in still need manual checks. The development environment could not visually inspect the final public package.
+Checks cover saved-state migration, theme contrast and animation cleanup, command-menu behaviour, GitHub account changes, protected connection endpoints, and installer data preservation. Visual appearance and interactive account consent also need manual verification.
 
-Licensed under [MIT](LICENSE).
+## Licence
+
+[MIT](LICENSE). Make yourself at home.
