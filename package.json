@@ -1,0 +1,8 @@
+{
+  "name": "daybreak-homepage",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node tests/check-themes.cjs && node tests/check-menu.cjs && node tests/check-github.cjs"
+  }
+}
