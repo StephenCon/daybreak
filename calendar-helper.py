@@ -19,6 +19,7 @@ import webbrowser
 from datetime import datetime, timedelta
 from http.server import ThreadingHTTPServer as HTTPServer, BaseHTTPRequestHandler
 from accounts_page import render as render_accounts
+from spotify_service import SpotifyService
 
 ROOT = Path(__file__).resolve().parent
 VAULT = ROOT / '.calendar-credentials'
@@ -31,6 +32,7 @@ CSRF = secrets.token_urlsafe(32)
 pending = None
 credentials = {}
 github_login_process = None
+spotify = None
 
 
 class Blob(ctypes.Structure):
@@ -134,18 +136,47 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Cache-Control', 'no-store')
         self.send_header('X-Frame-Options', 'DENY')
         self.send_header('Referrer-Policy', 'strict-origin')
-        self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; form-action 'self' https://accounts.google.com; frame-ancestors 'none'")
+        self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; form-action 'self' https://accounts.google.com https://accounts.spotify.com; frame-ancestors 'none'")
         self.end_headers()
         self.wfile.write(text.encode())
 
     def allowed(self):
         return self.headers.get('Host') == f'127.0.0.1:{PORT}'
 
+    def spotify_response(self, status, message):
+        self.send_response(status)
+        self.send_header('Content-Type', 'application/json')
+        self.send_header('Cache-Control', 'no-store')
+        self.send_header('Access-Control-Allow-Origin', 'null')
+        self.send_header('Vary', 'Origin')
+        self.end_headers()
+        self.wfile.write(json.dumps({'message': message}).encode())
+
+    def do_OPTIONS(self):
+        headers = {s.strip().lower() for s in self.headers.get('Access-Control-Request-Headers', '').split(',') if s.strip()}
+        if not self.allowed() or self.path != '/spotify/control' or self.headers.get('Origin') != 'null' or self.headers.get('Access-Control-Request-Method') != 'POST' or not headers.issubset({'content-type', 'x-daybreak-spotify'}):
+            return self.respond('Forbidden', 403)
+        self.send_response(204)
+        self.send_header('Access-Control-Allow-Origin', 'null')
+        self.send_header('Access-Control-Allow-Methods', 'POST')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, X-Daybreak-Spotify')
+        self.send_header('Access-Control-Allow-Private-Network', 'true')
+        self.send_header('Vary', 'Origin')
+        self.end_headers()
+
     def do_GET(self):
         global pending, credentials
         if not self.allowed():
             return self.respond('Forbidden', 403)
         parsed = url.urlparse(self.path)
+        if parsed.path == '/spotify/callback':
+            if spotify is None:
+                return self.respond('Spotify helper is not ready.', 503)
+            try:
+                spotify.callback(url.parse_qs(parsed.query))
+                return self.respond('Spotify connected. Open Spotify and start a track, then return to Daybreak. <a href="/">Manage accounts</a>')
+            except Exception:
+                return self.respond('Spotify sign-in was cancelled, expired or could not be saved. Check your app settings and try again. <a href="/">Return</a>', 400)
         if parsed.path == '/callback':
             query = url.parse_qs(parsed.query)
             with LOCK:
@@ -182,10 +213,27 @@ class Handler(BaseHTTPRequestHandler):
         except (OSError, ValueError, IndexError, AttributeError):
             github_status = None
         available = bool(shutil.which('gh') or Path(r'C:\Program Files\GitHub CLI\gh.exe').is_file())
-        self.respond(render_accounts(CSRF, bool(credentials.get('refresh_token')), read_cache().get('status'), github_status, available))
+        self.respond(render_accounts(CSRF, bool(credentials.get('refresh_token')), read_cache().get('status'), github_status, available, spotify.snapshot.get('status') if spotify else 'disconnected'))
 
     def do_POST(self):
         global pending, credentials, github_login_process
+        if self.path == '/spotify/control':
+            if not self.allowed() or self.headers.get('Origin') != 'null':
+                return self.respond('Forbidden', 403)
+            if spotify is None or not secrets.compare_digest(self.headers.get('X-Daybreak-Spotify', ''), spotify.control_key):
+                return self.spotify_response(403, 'Reload Daybreak to reconnect to this helper.')
+            try:
+                length = int(self.headers.get('Content-Length', '0'))
+                if not 0 < length <= 1024 or self.headers.get('Content-Type') != 'application/json':
+                    raise ValueError()
+                payload = json.loads(self.rfile.read(length))
+                action = payload.get('action') if isinstance(payload, dict) else None
+                if not isinstance(action, str) or action not in {*SpotifyService.ACTIONS, 'poll'}:
+                    raise ValueError()
+                status, message = spotify.control(action)
+                return self.spotify_response(status, message)
+            except (ValueError, TypeError):
+                return self.spotify_response(400, 'Invalid playback action.')
         if not self.allowed() or self.headers.get('Origin') != BASE:
             return self.respond('Forbidden', 403)
         try:
@@ -195,6 +243,18 @@ class Handler(BaseHTTPRequestHandler):
             form = url.parse_qs(self.rfile.read(length).decode())
             if not secrets.compare_digest(form.get('csrf', [''])[0], CSRF):
                 return self.respond('Expired form. Reload this page.', 403)
+            if self.path in ('/spotify/connect', '/spotify/disconnect'):
+                if spotify is None:
+                    return self.respond('Spotify helper is not ready.', 503)
+                if self.path == '/spotify/disconnect':
+                    spotify.disconnect()
+                    return self.respond('Spotify disconnected and local data cleared. You can also revoke Daybreak in <a href="https://www.spotify.com/account/apps/">Spotify apps</a>. <a href="/">Return</a>')
+                destination = spotify.authorize(form.get('client_id', [''])[0].strip())
+                self.send_response(303)
+                self.send_header('Location', destination)
+                self.send_header('Cache-Control', 'no-store')
+                self.end_headers()
+                return
             if self.path == '/github-connect':
                 with LOCK:
                     if github_login_process is None or github_login_process.poll() is not None:
@@ -231,11 +291,11 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header('Cache-Control', 'no-store')
             self.end_headers()
         except (ValueError, KeyError, TypeError):
-            self.respond('Use the complete JSON downloaded for a Desktop app OAuth client. <a href="/">Try again</a>', 400)
+            self.respond('Check your Spotify Client ID or Google Desktop OAuth JSON and try again. <a href="/">Return</a>', 400)
 
 
 def main():
-    global credentials
+    global credentials, spotify
     try:
         server = HTTPServer(('127.0.0.1', PORT), Handler)
     except OSError:
@@ -246,6 +306,8 @@ def main():
             credentials = json.loads(protect(VAULT.read_bytes(), decrypt=True))
         except Exception:
             print('Saved credentials could not be opened. Reconnect in the setup page.')
+    spotify = SpotifyService(ROOT, protect, atomic, BASE)
+    threading.Thread(target=spotify.worker, daemon=True).start()
     threading.Thread(target=worker, daemon=True).start()
     spec = importlib.util.spec_from_file_location('daybreak_github', ROOT / 'github-sync.py')
     github = importlib.util.module_from_spec(spec)

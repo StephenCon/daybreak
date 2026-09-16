@@ -2,7 +2,7 @@ param([switch]$NoLaunch)
 $ErrorActionPreference = 'Stop'
 $entry = Join-Path $PSScriptRoot 'index.html'
 if (-not (Test-Path -LiteralPath $entry)) { throw 'Daybreak files are missing. Run Install Daybreak again.' }
-foreach ($name in @('calendar-data.js', 'github-data.js')) {
+foreach ($name in @('calendar-data.js', 'github-data.js', 'spotify-data.js')) {
     $target = Join-Path $PSScriptRoot $name
     if (-not (Test-Path -LiteralPath $target)) {
         Copy-Item -LiteralPath (Join-Path $PSScriptRoot "templates\$name") -Destination $target

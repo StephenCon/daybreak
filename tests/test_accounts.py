@@ -45,6 +45,7 @@ class AccountEndpoints(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertIn('Sign in with Google', page)
         self.assertIn('Sign in with GitHub', page)
+        self.assertIn('Sign in with Spotify', page)
         self.assertNotIn('TEST_SECRET_MUST_NOT_RENDER', page)
 
     def test_github_login_requires_origin_and_csrf_and_only_launches_once(self):
@@ -62,6 +63,39 @@ class AccountEndpoints(unittest.TestCase):
     def test_malformed_google_client_keeps_existing_connection(self):
         self.assertEqual(self.request('POST', '/connect', {'csrf': self.helper.CSRF, 'client': '{}'})[0], 400)
         self.assertEqual(self.helper.credentials['refresh_token'], 'TEST_SECRET_MUST_NOT_RENDER')
+
+    def test_spotify_control_requires_local_origin_and_capability(self):
+        self.helper.spotify = Mock(control_key='test-local-key')
+        self.helper.spotify.control.return_value = (200, 'sent')
+        def post(origin, key, action='pause'):
+            conn = http.client.HTTPConnection('127.0.0.1', self.server.server_port)
+            conn.request('POST', '/spotify/control', __import__('json').dumps({'action': action}),
+                         {'Origin': origin, 'X-Daybreak-Spotify': key, 'Content-Type': 'application/json'})
+            result = conn.getresponse()
+            code = result.status
+            result.read()
+            conn.close()
+            return code
+        self.assertEqual(post('https://evil.example', 'test-local-key'), 403)
+        self.assertEqual(post('null', 'wrong'), 403)
+        self.assertEqual(post('null', 'test-local-key', 'delete'), 400)
+        self.helper.spotify.control.assert_not_called()
+        self.assertEqual(post('null', 'test-local-key'), 200)
+        self.helper.spotify.control.assert_called_once_with('pause')
+
+    def test_spotify_cors_only_for_control_route_and_file_origin(self):
+        def options(path, origin):
+            conn = http.client.HTTPConnection('127.0.0.1', self.server.server_port)
+            conn.request('OPTIONS', path, headers={'Origin': origin, 'Access-Control-Request-Method': 'POST',
+                                                  'Access-Control-Request-Headers': 'content-type,x-daybreak-spotify'})
+            result = conn.getresponse()
+            output = result.status, result.getheader('Access-Control-Allow-Origin')
+            result.read()
+            conn.close()
+            return output
+        self.assertEqual(options('/spotify/control', 'null'), (204, 'null'))
+        self.assertEqual(options('/connect', 'null')[0], 403)
+        self.assertEqual(options('/spotify/control', 'https://evil.example')[0], 403)
 
 
 if __name__ == '__main__':

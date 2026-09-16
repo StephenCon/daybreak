@@ -2,7 +2,7 @@
 from html import escape
 
 
-def render(csrf, google_connected, google_status, github_status, github_available):
+def render(csrf, google_connected, google_status, github_status, github_available, spotify_status='disconnected'):
     token = escape(csrf, quote=True)
     google = ('Sign-in needs renewing' if google_status == 'reconnect' else
               'Signed in - helper refreshes every minute' if google_connected else 'Not connected')
@@ -34,4 +34,15 @@ def render(csrf, google_connected, google_status, github_status, github_availabl
     <form method="post" action="/github-connect"><input type="hidden" name="csrf" value="''' + token + '''"><button''' + ('' if github_available else ' disabled') + '''>Sign in with GitHub</button></form>
     <p>A terminal opens for GitHub's browser sign-in instructions. When it finishes, return to your homepage. Existing GitHub CLI logins are detected automatically.</p>
     <p>To sign out of GitHub CLI, run <code>gh auth logout --hostname github.com</code> in a terminal. This also affects other tools using that CLI login. To remove saved issues, delete <code>github-data.js</code> from your Daybreak folder after stopping the helper.</p></section>
+    <section><h2>Spotify</h2><p class="status">''' + escape({'connected': 'Connected', 'idle': 'Connected - open Spotify to start playback', 'connecting': 'Connecting', 'reconnect': 'Sign in again'}.get(spotify_status, 'Not connected or unavailable')) + '''</p>
+    <p>Now playing, album art, play/pause and track skipping. Controls an active Spotify app or web player; music does not play inside Daybreak. Spotify Premium is required.</p>
+    <details><summary>First time? Create your Spotify app</summary><ol>
+    <li>Open the <a href="https://developer.spotify.com/dashboard" target="_blank" rel="noopener">Spotify Developer Dashboard</a> and create an app for personal use, with Web API access.</li>
+    <li>Add this exact redirect URI: <code>http://127.0.0.1:18743/spotify/callback</code>.</li>
+    <li>In the app's user management, add the Spotify accounts that will use it. Development apps support up to five allowlisted users and require a Premium app owner.</li>
+    <li>Copy the app's <strong>Client ID</strong> below. Daybreak does not need its client secret.</li></ol>
+    <p><a href="https://developer.spotify.com/documentation/web-api/concepts/quota-modes" target="_blank" rel="noopener">Spotify's development-mode requirements</a></p></details>
+    <form method="post" action="/spotify/connect"><input type="hidden" name="csrf" value="''' + token + '''"><p><label for="spotify-client">Spotify Client ID</label></p><input id="spotify-client" name="client_id" required pattern="[a-fA-F0-9]{32}" maxlength="32" autocomplete="off" style="width:100%;padding:12px;margin-bottom:14px"><button>Sign in with Spotify</button></form>
+    <p>Access is limited to reading playback and controlling playback. Tokens are encrypted for this Windows account.</p>
+    <form method="post" action="/spotify/disconnect"><input type="hidden" name="csrf" value="''' + token + '''"><button class="secondary">Disconnect and clear Spotify</button></form></section>
     <p><a href="/">Refresh connection status</a> · You can close this tab; the helper keeps running.</p></body></html>'''

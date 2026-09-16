@@ -5,12 +5,14 @@ vm.createContext(context);
 vm.runInContext(fs.readFileSync('themes.js','utf8'),context);
 vm.runInContext(fs.readFileSync('layout.js','utf8'),context);
 vm.runInContext(app.slice(0,app.indexOf(' let state=defaults()'))+'window.test={validate,defaults};})();',context);
-for(const version of [6,7,8]){
+for(const version of [6,7,8,9]){
  const original=context.window.test.defaults(); original.notes='Keep my notes';
- original.order=original.order.filter(id=>version===8||id!=='github').filter(id=>version!==6||id!=='agenda');
+ original.order=original.order.filter(id=>version===9||id!=='spotify').filter(id=>version>=8||id!=='github').filter(id=>version!==6||id!=='agenda');
+ original.layouts={wide:{notes:{x:0,y:0,w:6,h:10}}};
  original.hidden=['clock'];
  const next=context.window.test.validate(original);
- assert.equal(next.order.length,8);assert.equal(next.notes,original.notes);assert.equal(next.hidden[0],'clock');
+ assert.equal(next.order.length,9);assert.equal(next.notes,original.notes);assert.equal(next.hidden[0],'clock');
+ assert.deepEqual(next.layouts.wide.notes,original.layouts.wide.notes);assert.equal(next.order.filter(id=>id==='spotify').length,1);
  assert.equal(next.order.filter(id=>id==='github').length,1);
 }
 assert.throws(()=>context.window.test.validate({...context.window.test.defaults(),order:['invalid']}));
@@ -25,4 +27,4 @@ let body=new Element('div');ui.window.DAYBREAK_RENDER_ISSUES(body);
 assert(body.text.includes('Live'));assert(body.text.includes('latest 2'));assert(body.text.includes('<script>not executable</script>'));assert(!body.text.includes('bad'));
 ui.window.DAYBREAK_GITHUB.status='unavailable';body=new Element('div');ui.window.DAYBREAK_RENDER_ISSUES(body);assert(body.text.includes('saved issues'));
 ui.window.DAYBREAK_GITHUB={issues:[]};body=new Element('div');ui.window.DAYBREAK_RENDER_ISSUES(body);assert(body.text.includes('Waiting for GitHub'));
-console.log('PASS: 6/7/8-widget migrations, preserved notes/hidden tiles, invalid layouts, safe text/links, live and unavailable states');
+console.log('PASS: 6/7/8/9-widget migrations, preserved notes/layouts/hidden tiles, invalid layouts, safe text/links, live and unavailable states');

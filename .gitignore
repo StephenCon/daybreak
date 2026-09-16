@@ -1,5 +1,7 @@
 # Private local state. Never commit generated integration data.
 /.calendar-credentials*
+/.spotify-credentials*
+/spotify-data.js
 /calendar-data.js
 /github-data.js
 /weather-config.local.js

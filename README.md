@@ -25,6 +25,7 @@ Daybreak brings your daily essentials into one calm, customisable page. Search t
 | Local clock and focus/break timer | Choose from nine themes with distinct fonts and styling |
 | Weather for your chosen city | Follow your system's light/dark appearance |
 | Optional Google Calendar and GitHub issues | Use **Ctrl+K** for quick actions and theme switching |
+| Spotify Now Playing with playback controls | Album art and a progress bar that follow your theme |
 
 The core homepage runs directly from a folder. No server, account, Python installation or build step is needed to use search, links, tasks, notes, clock and timer.
 
@@ -47,7 +48,7 @@ A text window shows your homepage address and Chrome setup instructions. No admi
 Download the source using **Code → Download ZIP** and extract it to a permanent folder.
 
 - **Windows:** run **Open Daybreak.cmd**.
-- **Other systems:** copy `templates/calendar-data.js` and `templates/github-data.js` into the root folder, then open `index.html` in your browser.
+- **Other systems:** copy the three `.js` files in `templates/` into the root folder, then open `index.html` in your browser.
 
 The homepage itself is browser-based. The installer and Google Calendar helper currently require Windows. Keep the whole folder together and at a stable path.
 
@@ -132,6 +133,20 @@ Google sign-in is not required for GitHub. For a one-time refresh, run `python g
 
 Choose a city directly in the weather widget. Forecasts and city search use [Open-Meteo](https://open-meteo.com/), with no API key. Requests begin after you choose a location, and a saved forecast remains available offline.
 
+### Spotify Now Playing
+
+The **Now playing** tile shows the current track, artist, album art, active device and progress, with **previous / play-pause / next** controls. It acts as a remote for Spotify: open Spotify on your computer, phone or web player and start playing first. Daybreak does not stream audio itself.
+
+1. Start **Daybreak Accounts** and open the connection page.
+2. Create a personal Web API app in the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
+3. Set its redirect URI to exactly `http://127.0.0.1:18743/spotify/callback` and add your Spotify account to the app's user allowlist.
+4. Paste the **Client ID** into the Spotify section and choose **Sign in with Spotify**. No client secret is required.
+5. Approve playback access, return to Daybreak, and start music in Spotify.
+
+[Playback controls require Premium](https://developer.spotify.com/documentation/web-api/reference/start-a-users-playback). [Development-mode apps](https://developer.spotify.com/documentation/web-api/concepts/quota-modes) also require a Premium app owner and are limited to five allowlisted users. Each installation can connect its own developer app; this is not a shared public Spotify OAuth service.
+
+The helper checks playback about every ten seconds while the tile is visible, stopping within 45 seconds after you hide it or leave the page. It respects rate-limit backoff. Progress advances between updates. Controls are disabled when the helper is stale, no player is active, or Spotify restricts an action. If Chrome asks for local network access, allow it so the tile can refresh and send playback commands to the helper. Use **Disconnect and clear Spotify** on the connection page to remove its local tokens and cached playback; access can also be revoked in [Spotify's connected apps](https://www.spotify.com/account/apps/).
+
 ## Updates, backups and privacy
 
 **To update:** download the latest Windows ZIP, extract it, and run **Install Daybreak.cmd** again. Setup updates the same installation folder while preserving integration caches, credentials and weather configuration. Restart a running helper after updating; signing out of Windows and back in also stops the old process. Only one helper folder can use port 18743 at a time.
@@ -144,6 +159,8 @@ Choose a city directly in the weather widget. Forecasts and city search use [Ope
 | Weather preferences and cached forecast | Separate browser storage; not included in those backups |
 | Google credentials | Encrypted `.calendar-credentials` file on Windows |
 | Calendar events and GitHub issues | Readable local cache files beside the app |
+| Spotify credentials | Windows-encrypted `.spotify-credentials`; not included in desktop backups |
+| Current Spotify playback | Ignored `spotify-data.js` cache, with a helper-session key limited to playback actions; no Spotify OAuth tokens |
 
 The repository and releases contain empty integration templates only. Generated caches and credentials are excluded by `.gitignore`. Do not force-add personal caches, OAuth JSON or backups to Git.
 

@@ -12,6 +12,7 @@ $files = @(
     'index.html', 'app.js', 'daybreak.css', 'themes.js', 'menu.js', 'layout.js',
     'calendar-helper.py', 'calendar-live.js', 'github-sync.py', 'github-widget.js',
     'accounts.js', 'accounts_page.py', 'github-login.py', 'Connect accounts.cmd', 'launch-accounts.ps1',
+    'spotify_service.py', 'spotify-widget.js', 'spotify.css', 'templates\spotify-data.js',
     'weather.js', 'weather-config.js', 'launch.ps1', 'Open Daybreak.cmd',
     'Start Calendar.cmd', 'README.md', 'CALENDAR-SETUP.md', 'LICENSE',
     'assets\daybreak.svg', 'templates\calendar-data.js', 'templates\github-data.js'
@@ -30,7 +31,7 @@ foreach ($file in $files) {
     New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
     Copy-Item -LiteralPath (Join-Path $source $file) -Destination $target -Force
 }
-foreach ($file in @('calendar-data.js', 'github-data.js')) {
+foreach ($file in @('calendar-data.js', 'github-data.js', 'spotify-data.js')) {
     $target = Join-Path $Destination $file
     if (-not (Test-Path -LiteralPath $target)) {
         Copy-Item -LiteralPath (Join-Path $Destination "templates\$file") -Destination $target

@@ -1,8 +1,8 @@
 (() => {
  'use strict';
- const KEY='neon-desktop.v1', IDS=['search','links','clock','agenda','tasks','notes','github','timer'];
- const titles={search:'Search',links:'Your favourites',clock:'Here & now',tasks:'A little intention',notes:'A place for your thoughts',timer:'Focus time',agenda:'On your calendar',github:'On your GitHub'};
- const symbols={search:'⌘',links:'↗',clock:'◷',tasks:'☷',notes:'≡',timer:'◴',agenda:'▦',github:'◉'};
+ const KEY='neon-desktop.v1', IDS=['search','links','clock','agenda','tasks','notes','github','spotify','timer'];
+ const titles={search:'Search',links:'Your favourites',clock:'Here & now',tasks:'A little intention',notes:'A place for your thoughts',timer:'Focus time',agenda:'On your calendar',github:'On your GitHub',spotify:'Now playing'};
+ const symbols={search:'⌘',links:'↗',clock:'◷',tasks:'☷',notes:'≡',timer:'◴',agenda:'▦',github:'◉',spotify:'♫'};
  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
  const uid=()=>crypto.randomUUID();
  const systemTheme=window.matchMedia('(prefers-color-scheme: dark)');
@@ -12,6 +12,7 @@
   if(s&&Array.isArray(s.order)&&s.order.length===6&&!s.order.includes('agenda')&&new Set(s.order).size===6&&s.order.every(id=>IDS.includes(id))){s={...s,order:[...s.order]};s.order.splice(3,0,'agenda')}
   const str=(v,n)=>typeof v==='string'&&v.length<=n;
   if(s&&Array.isArray(s.order)&&s.order.length===7&&!s.order.includes('github')&&new Set(s.order).size===7&&s.order.every(id=>IDS.includes(id))){s={...s,order:[...s.order]};s.order.splice(s.order.indexOf('timer'),0,'github')}
+  if(s&&Array.isArray(s.order)&&s.order.length===8&&!s.order.includes('spotify')&&new Set(s.order).size===8&&s.order.every(id=>IDS.includes(id))){s={...s,order:[...s.order]};s.order.splice(s.order.indexOf('timer'),0,'spotify')}
   if(!s||s.version!==1||!Array.isArray(s.links)||s.links.length>500||!s.links.every(l=>l&&str(l.id,100)&&str(l.name,60)&&l.name.trim()&&str(l.url,4096)&&validURL(l.url))||new Set(s.links.map(l=>l.id)).size!==s.links.length)throw Error('Invalid links or backup version.');
   if(!Array.isArray(s.tasks)||s.tasks.length>10000||!s.tasks.every(t=>t&&str(t.id,100)&&str(t.text,500)&&t.text.trim()&&typeof t.done==='boolean')||new Set(s.tasks.map(t=>t.id)).size!==s.tasks.length||!str(s.notes,1000000))throw Error('Invalid notes or tasks.');
   if(!Array.isArray(s.order)||s.order.length!==IDS.length||new Set(s.order).size!==IDS.length||!s.order.every(id=>IDS.includes(id))||!Array.isArray(s.hidden)||new Set(s.hidden).size!==s.hidden.length||!s.hidden.every(id=>IDS.includes(id)))throw Error('Invalid desktop layout.');
@@ -54,6 +55,7 @@
  }
  function move(id,delta){const p=state.order.indexOf(id),q=p+delta;if(q<0||q>=IDS.length)return;[state.order[p],state.order[q]]=[state.order[q],state.order[p]];save();render();const target=$(`[data-widget="${id}"] .edit-controls button`);target?.focus()}
  const renderers={
+  spotify(body){window.DAYBREAK_RENDER_SPOTIFY(body)},
   github(body){window.DAYBREAK_RENDER_ISSUES(body)},
   agenda(body){
    const source=window.DAYBREAK_CALENDAR;
