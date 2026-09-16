@@ -155,8 +155,12 @@
         credentials: 'omit',
         cache: 'no-store',
       });
-      const result = await response.json();
-      message = response.ok ? '' : result.message || 'Playback command failed.';
+      if (response.ok) {
+        message = '';
+      } else {
+        const result = await response.json().catch(() => ({}));
+        message = result.message || 'Playback command failed.';
+      }
       if (response.ok) setTimeout(refresh, 1000);
     } catch {
       message =

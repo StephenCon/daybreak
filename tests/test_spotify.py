@@ -5,7 +5,7 @@ import sys
 import tempfile
 import time
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, MagicMock, patch
 from urllib.error import HTTPError
 from urllib.parse import parse_qs, urlparse
 
@@ -92,6 +92,37 @@ class SpotifyTests(unittest.TestCase):
         self.assertFalse(s.vault.exists())
         self.assertNotEqual(s.control_key, old_key)
         self.assertNotIn('controlKey', s.snapshot)
+
+    def test_successful_commands_do_not_require_json(self):
+        self.connect()
+        s = self.service
+        s.snapshot = {'status': 'connected', 'allowed': dict.fromkeys(s.ACTIONS, True)}
+        for status, body in [(200, b'OK'), (202, b'Accepted'), (204, b'')]:
+            for action in s.ACTIONS:
+                response = MagicMock()
+                response.__enter__.return_value = response
+                response.status = status
+                response.read.return_value = body
+                with patch('spotify_service.urllib.request.urlopen', return_value=response):
+                    self.assertEqual(s.control(action)[0], 200)
+                response.read.assert_not_called()
+                self.assertEqual(s.snapshot['status'], 'connected')
+        with patch('spotify_service.urllib.request.urlopen', side_effect=HTTPError(
+                'https://api.spotify.com/', 403, 'Forbidden', {}, io.BytesIO())):
+            self.assertEqual(s.control('play')[0], 409)
+        self.assertEqual(s.snapshot['status'], 'restricted')
+
+    def test_playback_reads_still_parse_and_validate_json(self):
+        self.connect()
+        response = MagicMock()
+        response.__enter__.return_value = response
+        response.status = 200
+        response.read.return_value = b'{"is_playing": true}'
+        with patch('spotify_service.urllib.request.urlopen', return_value=response):
+            self.assertEqual(self.service.api('GET'), {'is_playing': True})
+            response.read.return_value = b'not JSON'
+            with self.assertRaises(ValueError):
+                self.service.api('GET')
 
     def test_refresh_rotation_and_safe_artwork(self):
         self.connect()

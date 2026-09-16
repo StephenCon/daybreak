@@ -3,7 +3,7 @@
   font-family: 'Segoe UI', Arial, sans-serif;
   color: #333a33;
   background: #f5f3ed;
-  font-size: 14px;
+  font-size: 16px;
   color-scheme: light;
   --page: #f5f3ed;
   --surface: #fdfcf9;
@@ -61,7 +61,7 @@ button,
   cursor: pointer;
   color: var(--text);
   text-decoration: none;
-  font-size: 12px;
+  font-size: 14px;
 }
 button:hover,
 .button:hover {
@@ -161,13 +161,13 @@ select:focus-visible {
   border-left: 1px solid var(--line);
   padding-left: 22px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.4px;
 }
 .top-date {
   margin-left: auto;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
 }
 .bar-actions {
   display: flex;
@@ -176,7 +176,7 @@ select:focus-visible {
 .bar-actions button {
   background: none;
   border-color: transparent;
-  font-size: 12px;
+  font-size: 14px;
   padding: 8px 11px;
   color: var(--muted);
 }
@@ -203,7 +203,7 @@ main {
   margin-bottom: 31px;
 }
 .eyebrow {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--accent);
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -219,7 +219,7 @@ main {
 }
 .intro p {
   margin-top: 13px;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--muted);
 }
 .intro-aside {
@@ -236,7 +236,7 @@ main {
 }
 .aside-copy {
   font-family: Georgia, serif;
-  font-size: 16px;
+  font-size: 18px;
   font-style: italic;
   line-height: 1.65;
   color: var(--accent);
@@ -263,12 +263,12 @@ main {
   padding: 0 22px;
 }
 .tile-head h2 {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: -0.15px;
 }
 .tile-symbol {
-  font-size: 16px;
+  font-size: 18px;
   color: var(--accent);
 }
 .tile-code {
@@ -311,7 +311,7 @@ main {
   background: none;
   border: 0;
   padding: 9px 0;
-  font-size: 16px;
+  font-size: 18px;
 }
 .search-form select {
   width: 132px;
@@ -320,7 +320,7 @@ main {
   border-radius: 0;
   background: none;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
   padding-left: 16px;
 }
 .search-form button {
@@ -380,7 +380,7 @@ main {
   border-radius: 9px;
   background: var(--surface);
   min-height: 62px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
 }
 .link-card a:hover {
@@ -425,10 +425,10 @@ main {
   gap: 8px;
   margin-top: 11px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
 }
 .widget-bottom > span {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.5px;
 }
 .text-button {
@@ -437,7 +437,7 @@ main {
   background: none;
   border: 0;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 13px;
 }
 .text-button:hover {
   background: none;
@@ -453,7 +453,7 @@ main {
 .link-edit button {
   min-height: 26px;
   padding: 2px 5px;
-  font-size: 11px;
+  font-size: 13px;
 }
 .clock-time {
   font-variant-numeric: tabular-nums;
@@ -470,14 +470,14 @@ main {
   padding-left: 3px;
 }
 .clock-date {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--accent);
   margin-top: 9px;
   text-transform: none;
   letter-spacing: 0.1px;
 }
 .clock-zone {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 7px;
 }
@@ -491,7 +491,7 @@ main {
 }
 .task-form input {
   width: 100%;
-  font-size: 12px;
+  font-size: 14px;
   padding: 10px 11px;
   background: var(--page);
 }
@@ -526,7 +526,7 @@ main {
   border: 0;
   border-radius: 0;
   background: none;
-  font-size: 13px;
+  font-size: 15px;
   overflow-wrap: anywhere;
 }
 .task-text:hover {
@@ -548,7 +548,7 @@ main {
 .empty {
   padding: 22px 5px 8px;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
   line-height: 1.8;
 }
@@ -567,7 +567,7 @@ main {
   margin-left: auto;
   font-family: Georgia, serif;
   font-style: italic;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
 }
 .notes {
@@ -584,14 +584,14 @@ main {
   padding: 0;
   border: 0;
   border-radius: 0;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text);
 }
 .note-bottom {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 16px;
 }
@@ -621,12 +621,12 @@ main {
   flex: 1;
 }
 .timer-details strong {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: 0.2px;
 }
 .timer-details p {
-  font-size: 12px;
+  font-size: 14px;
   opacity: 0.7;
   margin-top: 5px;
 }
@@ -637,7 +637,7 @@ main {
   flex-wrap: wrap;
 }
 .timer-controls button {
-  font-size: 11px;
+  font-size: 13px;
   color: inherit;
   border-color: currentColor;
   background: transparent;
@@ -657,11 +657,11 @@ main {
   background: transparent;
   border-color: #ffffff30;
   color: inherit;
-  font-size: 12px;
+  font-size: 14px;
   padding: 8px;
 }
 .timer-caption {
-  font-size: 9px;
+  font-size: 11px;
   opacity: 0.7;
 }
 :root[data-theme='evening'] body .timer-controls button,
@@ -674,7 +674,7 @@ footer {
   justify-content: space-between;
   gap: 15px;
   padding: 20px 1px;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
 }
 footer > span {
@@ -692,7 +692,7 @@ footer > span {
 .footer-note {
   font-family: Georgia, serif;
   font-style: italic;
-  font-size: 12px;
+  font-size: 14px;
 }
 .layout-tools {
   padding: 18px 20px;
@@ -700,11 +700,11 @@ footer > span {
   background: var(--soft);
   border-radius: 10px;
   margin-bottom: 20px;
-  font-size: 13px;
+  font-size: 15px;
 }
 .layout-tools p {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 6px;
 }
 #visibility {
@@ -729,7 +729,7 @@ footer > span {
 .edit-controls button {
   padding: 2px 7px;
   min-height: 26px;
-  font-size: 12px;
+  font-size: 14px;
 }
 .editing .tile-head {
   cursor: grab;
@@ -773,7 +773,7 @@ footer > span {
   max-width: 90%;
   box-shadow: 0 5px 25px #0002;
   z-index: 50;
-  font-size: 13px;
+  font-size: 15px;
 }
 dialog {
   padding: 0;
@@ -812,20 +812,20 @@ dialog::backdrop {
   padding: 24px;
 }
 .dialog-body p {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
   line-height: 1.8;
   margin: 10px 0 16px;
 }
 .dialog-body h3 {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
 }
 .field {
   display: flex;
   flex-direction: column;
   gap: 9px;
-  font-size: 13px;
+  font-size: 15px;
   margin-bottom: 20px;
 }
 .field input,
@@ -837,7 +837,7 @@ dialog::backdrop {
   align-items: center;
   gap: 9px;
   margin: 18px 0;
-  font-size: 13px;
+  font-size: 15px;
 }
 hr {
   border: 0;
@@ -845,7 +845,7 @@ hr {
   margin: 22px 0;
 }
 .settings-detail {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
   line-height: 1.6;
   margin-top: 6px;
@@ -885,7 +885,7 @@ body:not(.no-motion) .season-mark {
     font-size: 72px;
   }
   .intro p {
-    font-size: 15px;
+    font-size: 17px;
   }
   .desktop {
     gap: 24px;
@@ -932,21 +932,21 @@ body:not(.no-motion) .season-mark {
   }
   .eyebrow {
     margin-bottom: 9px;
-    font-size: 9px;
+    font-size: 11px;
   }
   .intro h1 {
     font-size: 49px;
   }
   .intro p {
     margin-top: 10px;
-    font-size: 13px;
+    font-size: 15px;
   }
   .season-mark {
     width: 63px;
     height: 63px;
   }
   .aside-copy {
-    font-size: 14px;
+    font-size: 16px;
   }
   .desktop {
     gap: 15px;
@@ -997,7 +997,7 @@ body:not(.no-motion) .season-mark {
   }
   .empty {
     padding-top: 13px;
-    font-size: 11px;
+    font-size: 13px;
   }
   .timer-body {
     padding: 16px 22px;
@@ -1006,7 +1006,7 @@ body:not(.no-motion) .season-mark {
     font-size: 32px;
   }
   .timer-details p {
-    font-size: 11px;
+    font-size: 13px;
   }
   footer {
     padding: 17px 0;
@@ -1073,7 +1073,7 @@ body:not(.no-motion) .season-mark {
     gap: 1px;
   }
   .bar-actions button {
-    font-size: 11px;
+    font-size: 13px;
     padding: 7px 8px;
   }
   #theme-toggle {
@@ -1094,12 +1094,12 @@ body:not(.no-motion) .season-mark {
     letter-spacing: -2px;
   }
   .intro p {
-    font-size: 13px;
+    font-size: 15px;
     max-width: 240px;
     line-height: 1.6;
   }
   .eyebrow {
-    font-size: 9px;
+    font-size: 11px;
     letter-spacing: 1.5px;
   }
   .intro-aside {
@@ -1122,7 +1122,7 @@ body:not(.no-motion) .season-mark {
   .search-form input {
     flex: auto;
     width: calc(100% - 37px);
-    font-size: 15px;
+    font-size: 17px;
   }
   .search-form select {
     margin-left: 29px;
@@ -1186,10 +1186,10 @@ body:not(.no-motion) .season-mark {
     display: none;
   }
   footer {
-    font-size: 9px;
+    font-size: 11px;
   }
   .note-bottom {
-    font-size: 9px;
+    font-size: 11px;
   }
   .layout-tools {
     padding: 15px;
@@ -1207,7 +1207,7 @@ body:not(.no-motion) .season-mark {
   flex-direction: column;
 }
 .agenda-summary {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
   display: flex;
   justify-content: space-between;
@@ -1215,7 +1215,7 @@ body:not(.no-motion) .season-mark {
   margin-bottom: 9px;
 }
 .agenda-count {
-  font-size: 10px;
+  font-size: 12px;
 }
 .agenda-list {
   overflow: auto;
@@ -1237,7 +1237,7 @@ body:not(.no-motion) .season-mark {
   text-underline-offset: 3px;
 }
 .event-time {
-  font-size: 11px;
+  font-size: 13px;
   min-width: 34px;
   padding-top: 2px;
   font-variant-numeric: tabular-nums;
@@ -1250,13 +1250,13 @@ body:not(.no-motion) .season-mark {
   min-width: 0;
 }
 .event-title {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.4;
   overflow-wrap: anywhere;
 }
 .event-next {
-  font-size: 9px;
+  font-size: 11px;
   color: var(--accent);
 }
 .agenda-event.up-next {
@@ -1275,11 +1275,11 @@ body:not(.no-motion) .season-mark {
   justify-content: space-between;
 }
 .agenda-sync {
-  font-size: 9px;
+  font-size: 11px;
   color: var(--muted);
 }
 .calendar-open {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--accent);
   text-decoration: none;
 }
@@ -1287,7 +1287,7 @@ body:not(.no-motion) .season-mark {
   text-decoration: underline;
 }
 .agenda-empty {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
   line-height: 1.8;
   padding: 14px 0;
@@ -1315,10 +1315,10 @@ body:not(.no-motion) .season-mark {
     gap: 5px;
   }
   .event-title {
-    font-size: 12px;
+    font-size: 14px;
   }
   .agenda-sync {
-    font-size: 9px;
+    font-size: 11px;
   }
 }
 @media (min-width: 651px) and (max-width: 1100px) {
@@ -1339,7 +1339,7 @@ body:not(.no-motion) .season-mark {
     height: 250px;
   }
   .event-title {
-    font-size: 13px;
+    font-size: 15px;
   }
   .agenda-foot {
     padding-top: 14px;
@@ -1420,7 +1420,7 @@ body:not(.no-motion) .season-mark {
   gap: 10px;
 }
 .weather-place {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   max-width: 195px;
   overflow: hidden;
@@ -1428,7 +1428,7 @@ body:not(.no-motion) .season-mark {
   white-space: nowrap;
 }
 .weather-top .text-button {
-  font-size: 10px;
+  font-size: 12px;
 }
 .weather-main {
   display: flex;
@@ -1449,16 +1449,16 @@ body:not(.no-motion) .season-mark {
   font-variant-numeric: tabular-nums;
 }
 .weather-description {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
 }
 .weather-detail {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
   margin: 3px 0;
 }
 .weather-status {
-  font-size: 9px;
+  font-size: 11px;
   color: var(--muted);
 }
 .weather-actions {
@@ -1466,23 +1466,23 @@ body:not(.no-motion) .season-mark {
   gap: 7px;
 }
 .weather-actions .text-button {
-  font-size: 11px;
+  font-size: 13px;
 }
 .weather-empty {
   display: flex;
   gap: 12px;
   align-items: center;
   min-height: 55px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
 }
 .weather-empty p {
-  font-size: 12px;
+  font-size: 14px;
   margin: 0;
 }
 .weather-credit {
   display: block;
-  font-size: 9px;
+  font-size: 11px;
   color: var(--muted);
   text-decoration: none;
 }
@@ -1505,7 +1505,7 @@ body:not(.no-motion) .season-mark {
   text-align: left;
   justify-content: flex-start;
   line-height: 1.5;
-  font-size: 13px;
+  font-size: 15px;
 }
 @media (min-width: 1101px) and (max-height: 850px) {
   .weather-widget {
@@ -1561,16 +1561,16 @@ body:not(.no-motion) .season-mark {
   }
   .weather-status,
   .weather-credit {
-    font-size: 10px;
+    font-size: 12px;
   }
   .weather-place {
     max-width: 220px;
   }
   .weather-detail {
-    font-size: 12px;
+    font-size: 14px;
   }
   .weather-description {
-    font-size: 13px;
+    font-size: 15px;
   }
 }
 dialog {
@@ -1600,7 +1600,7 @@ dialog {
   }
   .bar-actions button {
     padding: 6px 4px;
-    font-size: 10px;
+    font-size: 12px;
   }
   #theme-toggle {
     width: 27px;
@@ -1615,7 +1615,7 @@ dialog {
   .link-card a {
     gap: 8px;
     padding: 10px 8px;
-    font-size: 12px;
+    font-size: 14px;
   }
   .link-icon {
     width: 25px;
@@ -1675,7 +1675,7 @@ dialog {
 }
 .github-dot {
   color: var(--accent);
-  font-size: 13px;
+  font-size: 15px;
   padding-top: 2px;
 }
 .github-copy {
@@ -1685,7 +1685,7 @@ dialog {
   min-width: 0;
 }
 .github-repo {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
   overflow-wrap: anywhere;
 }
@@ -1695,7 +1695,7 @@ dialog {
   flex-wrap: wrap;
 }
 .github-label {
-  font-size: 9px;
+  font-size: 11px;
   color: var(--muted);
   background: var(--soft);
   border-radius: 4px;
@@ -1812,7 +1812,7 @@ dialog {
   gap: 6px;
 }
 .editing .custom-grid .tile-head h2 {
-  font-size: 12px;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1865,13 +1865,13 @@ dialog {
   padding-top: 12px;
 }
 .grid-controls button {
-  font-size: 11px;
+  font-size: 13px;
   min-height: 30px;
   padding: 5px 9px;
 }
 .grid-selection {
   flex-basis: 100%;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
   margin-bottom: 3px;
 }
@@ -1992,7 +1992,7 @@ dialog {
   color: var(--accent);
 }
 .command-label {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 1.5;
   overflow-wrap: anywhere;
@@ -2000,7 +2000,7 @@ dialog {
   flex: 1;
 }
 .command-hint {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
   max-width: 115px;
   text-align: right;
@@ -2015,12 +2015,12 @@ dialog {
   border-top: 1px solid var(--line);
   padding: 14px 3px 0;
   margin-top: 13px;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
 }
 #command-empty {
   padding: 20px 10px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
   line-height: 1.7;
 }
@@ -2035,7 +2035,7 @@ dialog {
   }
   .command-hint {
     max-width: 90px;
-    font-size: 10px;
+    font-size: 12px;
   }
   #command-menu {
     padding: 17px;
@@ -2105,7 +2105,7 @@ body:not(.editing)
 .desktop .intro p {
   max-width: none;
   line-height: 1.6;
-  font-size: 13px;
+  font-size: 15px;
 }
 .desktop .weather-widget {
   width: 100%;
@@ -2145,10 +2145,10 @@ body:not(.editing)
   margin: 0 0 10px;
 }
 .desktop .tile[data-widget='spotify'] .spotify-title {
-  font-size: 14px;
+  font-size: 16px;
 }
 .desktop .tile[data-widget='spotify'] .spotify-status {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 3px;
   overflow-wrap: anywhere;

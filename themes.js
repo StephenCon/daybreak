@@ -361,7 +361,7 @@
 :root[data-palette="cyberpunk"] .tile-head h2 {
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-size: 12px;
+  font-size: 14px;
 }
 :root[data-palette="retro"] .tile:not([data-widget="clock"]):not([data-widget="links"]) {
   box-shadow: 4px 4px 0 var(--line);
@@ -463,7 +463,7 @@
   letter-spacing: -0.02em;
 }
 :root[data-palette="fireside"] .tile-symbol {
-  font-size: 14px;
+  font-size: 16px;
   opacity: 0.8;
 }
 :root[data-palette="fireside"] .link-card a {
@@ -488,7 +488,7 @@
 }
 :root[data-palette="fireside"] .notes {
   font-family: Cambria, Georgia, serif;
-  font-size: 16px;
+  font-size: 18px;
   background: none;
 }
 :root[data-palette="fireside"] .tile[data-widget="notes"] .tile-head {
@@ -623,7 +623,7 @@
 }
 .portal-title small {
   display: block;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.4em;
   text-transform: uppercase;
   margin-bottom: 12px;

@@ -108,6 +108,10 @@ class SpotifyService:
         req = urllib.request.Request('https://api.spotify.com/v1/me/player' + suffix,
                                      headers={'Authorization': 'Bearer ' + self.token()}, method=method)
         with urllib.request.urlopen(req, timeout=15) as response:
+            # Playback commands need only a successful HTTP status. Their response
+            # body may be empty or plain text rather than a JSON document.
+            if method != 'GET':
+                return None
             return None if response.status == 204 else json.loads(response.read() or b'null')
 
     @staticmethod

@@ -88,6 +88,24 @@ const find = (node, cls) =>
   assert.equal(JSON.parse(requests[0].options.body).action, 'pause');
   assert.equal(requests[0].options.headers['X-Daybreak-Spotify'], 'local-key');
   assert.equal(find(body, 'spotify-controls').children[1], play);
+  context.fetch = async () => ({
+    ok: false,
+    json: async () => ({ message: 'Device unavailable.' }),
+  });
+  await play.onclick();
+  assert.equal(find(body, 'spotify-notice').textContent, 'Device unavailable.');
+  context.fetch = async () => ({
+    ok: true,
+    json: async () => {
+      throw Error('Empty response');
+    },
+  });
+  await play.onclick();
+  assert.equal(
+    find(body, 'spotify-notice').textContent,
+    '',
+    'successful status clears earlier errors without requiring JSON',
+  );
   context.window.DAYBREAK_SPOTIFY.checkedAt = Date.now() - 45000;
   render(body);
   assert(play.disabled);
