@@ -1263,6 +1263,32 @@ body:not(.no-motion) .season-mark {
   border-left: 2px solid var(--accent);
   padding-left: 7px;
 }
+.agenda-event.happening-now {
+  border-left: 2px solid var(--accent);
+  padding-left: 7px;
+  background: var(--soft);
+}
+.agenda-now {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+}
+.agenda-now::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: var(--accent);
+  opacity: 0.45;
+}
+.agenda-summary .agenda-back {
+  padding: 0;
+  min-height: 0;
+  font-size: 12px;
+}
 .agenda-event.past .event-title {
   color: var(--muted);
 }

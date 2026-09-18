@@ -112,6 +112,7 @@ If the helper is already running, use **Open connection page** from Daybreak. A 
 The connection page walks you through creating your own Google Cloud project, enabling Calendar, and creating a **Desktop app OAuth client**. Paste that client's JSON into the local connection page, then choose **Sign in with Google**.
 
 - Reads scheduled events from your **primary calendar**, including recurring and all-day events.
+- Opens at the current event, highlights events happening now with minutes remaining, and shows a **Now** marker during gaps. Earlier events remain above. Manual scrolling pauses automatic following; **Back to now** resumes it. All-day events stay in the list without taking over the current-event highlight.
 - Requests read-only access; it cannot edit events.
 - Refreshes every minute, with the homepage checking the saved output every 30 seconds.
 - Stores credentials encrypted for your Windows account.

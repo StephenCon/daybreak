@@ -303,6 +303,7 @@
     if (state.theme === 'system') applyPrefs();
   });
   const persistentWidgets = { greeting: $('#greeting-content'), weather: $('#weather-widget') };
+  const agendaView = { following: true, scroll: 0, date: null };
   function render() {
     const desktop = $('#desktop');
     // Keep the weather instance and its event listeners alive across layout edits.
@@ -449,6 +450,10 @@
         day: '2-digit',
       }).format(new Date());
       const isToday = today === data.date;
+      if (agendaView.date !== data.date) {
+        Object.assign(agendaView, { following: true, scroll: 0, date: data.date });
+      }
+      const now = Date.now();
       const note = el(
         'div',
         'agenda-summary',
@@ -463,23 +468,33 @@
       body.append(note);
       const list = el('div', 'agenda-list');
       list.setAttribute('aria-label', 'Scheduled events');
+      list.tabIndex = 0;
       const events = [...data.events]
         .filter(
           (e) =>
             e &&
             typeof e.title === 'string' &&
             Number.isFinite(Date.parse(e.start)) &&
-            Number.isFinite(Date.parse(e.end)),
+            Number.isFinite(Date.parse(e.end)) &&
+            Date.parse(e.end) > Date.parse(e.start),
         )
         .sort((a, b) => Date.parse(a.start) - Date.parse(b.start));
-      const next = events.find((e) => Date.parse(e.end) > Date.now());
+      const timed = events.filter((e) => e.start.length !== 10);
+      const active = timed.filter((e) => Date.parse(e.start) <= now && Date.parse(e.end) > now);
+      const next = timed.find((e) => Date.parse(e.start) > now);
+      const marker = isToday && !active.length ? el('div', 'agenda-now', 'Now') : null;
+      let target = marker;
       events.forEach((e) => {
+        if (marker && e === next) list.append(marker);
         const row = el('a', 'agenda-event');
         row.href = validURL(e.url) ? e.url : link.href;
         row.dataset.end = e.end;
         row.dataset.start = e.start;
-        if (Date.parse(e.end) < Date.now()) row.classList.add('past');
-        if (isToday && e === next) row.classList.add('up-next');
+        if (e.start.length !== 10 && Date.parse(e.end) <= now) row.classList.add('past');
+        if (isToday && active.includes(e)) {
+          row.classList.add('happening-now');
+          target ||= row;
+        } else if (isToday && e === next) row.classList.add('up-next');
         const time = el(
           'span',
           'event-time',
@@ -493,17 +508,20 @@
         );
         const text = el('span', 'event-copy');
         text.append(el('span', 'event-title', e.title));
-        if (e === next && isToday)
+        if (isToday && (active.includes(e) || e === next))
           text.append(
             el(
               'span',
               'event-next',
-              Date.parse(e.start) <= Date.now() ? 'Happening now' : 'Up next',
+              active.includes(e)
+                ? 'Now · ' + Math.ceil((Date.parse(e.end) - now) / 60000) + ' min left'
+                : 'Up next',
             ),
           );
         row.append(time, text);
         list.append(row);
       });
+      if (marker && !next) list.append(marker);
       if (!events.length)
         list.append(
           el(
@@ -515,6 +533,54 @@
           ),
         );
       body.append(list);
+      const follow = () => {
+        if (target) {
+          list.scrollTop = Math.max(
+            0,
+            list.scrollTop + target.getBoundingClientRect().top - list.getBoundingClientRect().top,
+          );
+        } else list.scrollTop = 0;
+        agendaView.scroll = list.scrollTop;
+      };
+      const back = btn(
+        'Back to now',
+        () => {
+          agendaView.following = true;
+          back.hidden = true;
+          tag.hidden = false;
+          follow();
+          list.focus({ preventScroll: true });
+        },
+        'text-button agenda-back',
+        'Scroll calendar to the current time',
+      );
+      back.hidden = !isToday || agendaView.following;
+      tag.hidden = isToday && !agendaView.following;
+      note.append(back);
+      const manual = () => {
+        agendaView.following = false;
+        back.hidden = !isToday;
+        tag.hidden = isToday;
+      };
+      list.addEventListener('wheel', manual, { passive: true });
+      list.addEventListener('touchstart', manual, { passive: true });
+      list.addEventListener('pointerdown', manual);
+      list.addEventListener('keydown', (event) => {
+        if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key))
+          manual();
+      });
+      list.addEventListener(
+        'scroll',
+        () => {
+          agendaView.scroll = list.scrollTop;
+        },
+        { passive: true },
+      );
+      requestAnimationFrame(() => {
+        if (!list.isConnected) return;
+        if (agendaView.following && isToday) follow();
+        else list.scrollTop = agendaView.scroll;
+      });
       const foot = el('div', 'agenda-foot');
       const stamp = new Date(data.updatedAt);
       const updated = Number.isFinite(stamp.getTime())
@@ -866,11 +932,8 @@
     const agendaBody = $('[data-widget=agenda] .tile-body');
     if (agendaBody && minute !== agendaMinute) {
       agendaMinute = minute;
-      const scroll = agendaBody.querySelector('.agenda-list')?.scrollTop || 0;
       agendaBody.replaceChildren();
       renderers.agenda(agendaBody);
-      const list = agendaBody.querySelector('.agenda-list');
-      if (list) list.scrollTop = scroll;
     }
     const hour = now.getHours();
     $('#greeting').textContent =

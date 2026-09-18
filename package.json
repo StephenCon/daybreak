@@ -1,9 +1,9 @@
 {
   "name": "daybreak-homepage",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "private": true,
   "scripts": {
-    "test": "node tests/check-themes.cjs && node tests/check-menu.cjs && node tests/check-github.cjs && node tests/check-spotify.cjs",
+    "test": "node tests/check-themes.cjs && node tests/check-menu.cjs && node tests/check-github.cjs && node tests/check-spotify.cjs && node tests/check-calendar.cjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
